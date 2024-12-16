@@ -31,15 +31,15 @@ public class CacheService<T> {
   private final ConcurrentHashMap<String, Integer> accessCount;
 
   private final CacheStatistics statistics = new CacheStatistics();
-  private final RemovalListener<T> removalListener;
+  private final CustomRemovalListener<T> customRemovalListener;
 
   private final ScheduledExecutorService executorService;
   private ScheduledFuture<?> scheduledFuture;
 
-  public CacheService(int maxSize, RemovalListener<T> removalListener) {
+  public CacheService(int maxSize, CustomRemovalListener<T> customRemovalListener) {
     this.cache = new ConcurrentHashMap<>();
     this.accessCount = new ConcurrentHashMap<>();
-    this.removalListener = removalListener;
+    this.customRemovalListener = customRemovalListener;
     this.executorService = Executors.newSingleThreadScheduledExecutor();
 
     if(maxSize >= 0) this.MAX_SIZE = maxSize;
@@ -149,8 +149,8 @@ public class CacheService<T> {
     log.info("Removed key: " + key);
 
     // 4. Removal listener
-    if (removalListener != null && removedEntry != null) {
-      removalListener.onRemoval(key, removedEntry);
+    if (customRemovalListener != null && removedEntry != null) {
+      customRemovalListener.onRemoval(key, removedEntry);
     }
   }
 

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.example.part1LFU.CacheEntry;
 import org.example.part1LFU.CacheService;
-import org.example.part1LFU.RemovalListener;
+import org.example.part1LFU.CustomRemovalListener;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +20,7 @@ class CacheServiceTest {
 
   @BeforeEach
   void setUp() {
-    cacheService = new CacheService<>(3, new RemovalListenerTest<>());
+    cacheService = new CacheService<>(3, new CustomRemovalListenerTest<>());
   }
 
   @Test
@@ -72,7 +72,7 @@ class CacheServiceTest {
   @Test
   void testRemovalListener() {
     // given
-    RemovalListenerTest<String> listener = new RemovalListenerTest<>();
+    CustomRemovalListenerTest<String> listener = new CustomRemovalListenerTest<>();
     CacheService<String> cacheServiceWithListener = new CacheService<>(10, listener);
 
     CacheEntry<String> cacheEntry = new CacheEntry<>("value1");
@@ -86,7 +86,7 @@ class CacheServiceTest {
     assertTrue(listener.removedEntries.contains(cacheEntry));
   }
 
-  static class RemovalListenerTest<T> implements RemovalListener<T> {
+  static class CustomRemovalListenerTest<T> implements CustomRemovalListener<T> {
     String removedKey;
     List<CacheEntry<T>> removedEntries = new ArrayList<>();
 

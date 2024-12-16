@@ -6,6 +6,6 @@ package org.example.part1LFU;
  * Should be called when element is removed from
  */
 @FunctionalInterface
-public interface RemovalListener<T> {
+public interface CustomRemovalListener<T> {
   void onRemoval(String key, CacheEntry<T> value);
 }
