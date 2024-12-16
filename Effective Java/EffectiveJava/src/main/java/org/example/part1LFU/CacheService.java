@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import org.example.util.CacheStatistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +31,7 @@ public class CacheService<T> {
   private final ConcurrentHashMap<String, CacheEntry<T>> cache;
   private final ConcurrentHashMap<String, Integer> accessCount;
 
-  private final CacheStatistics statistics = new CacheStatistics();
+  private final CacheStatistics statistics;
   private final CustomRemovalListener<T> customRemovalListener;
 
   private final ScheduledExecutorService executorService;
@@ -40,6 +41,7 @@ public class CacheService<T> {
     this.cache = new ConcurrentHashMap<>();
     this.accessCount = new ConcurrentHashMap<>();
     this.customRemovalListener = customRemovalListener;
+    this.statistics = new CacheStatistics();
     this.executorService = Executors.newSingleThreadScheduledExecutor();
 
     if(maxSize >= 0) this.MAX_SIZE = maxSize;
@@ -158,37 +160,6 @@ public class CacheService<T> {
   public void printStatistics() {
     System.out.println("Average put time: " + statistics.getAveragePutTime() + " ms");
     System.out.println("Number of evictions: " + statistics.getNumberOfCacheEvictions());
-  }
-
-  private static class CacheStatistics {
-    private long totalPutTime = 0;
-    private int totalPuts = 0;
-
-    // 8. Number of cache evictions
-    private int numberOfCacheEvictions = 0;
-
-    public synchronized void addPutTime(long time) {
-      totalPutTime += time;
-      totalPuts++;
-    }
-
-    public synchronized void incrementEvictions() {
-      numberOfCacheEvictions++;
-    }
-
-    /**
-     * 7. Average time spent for putting new values into cache
-     *
-     * @return average time spent for insertion of new value based on values which
-     * are tracked in put() method.
-     */
-    public synchronized double getAveragePutTime() {
-      return totalPuts == 0 ? 0 : (double) totalPutTime / totalPuts;
-    }
-
-    public synchronized int getNumberOfCacheEvictions() {
-      return numberOfCacheEvictions;
-    }
   }
 
 }
