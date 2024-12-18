@@ -8,18 +8,26 @@ import org.example.part1LFU.CacheEntry;
 import org.example.util.CacheStatistics;
 
 public class GuavaCacheService<T> {
-  private final Cache<String, CacheEntry<T>> cache;
 
+  // 2. Eviction policy
+  // 9. Support concurrency
+  private final Cache<String, CacheEntry<T>> cache;
   private final CacheStatistics statistics;
 
+  // 1. Max Size = 100 000
+  private final int MAX_SIZE;
 
-  public GuavaCacheService(RemovalListener<String, CacheEntry<T>> customRemovalListener) {
+  public GuavaCacheService(int maxSize, RemovalListener<String, CacheEntry<T>> customRemovalListener) {
     this.statistics = new CacheStatistics();
 
+    if(maxSize >= 0) this.MAX_SIZE = maxSize;
+    else this.MAX_SIZE = 100000;
+
     this.cache = CacheBuilder.newBuilder()
-        .expireAfterAccess(5, TimeUnit.SECONDS)
-        .removalListener(customRemovalListener)
-        .maximumSize(100000)
+        .expireAfterAccess(5, TimeUnit.SECONDS) // 3. Time-based on last access (5 seconds)
+        // 4. Removal listener
+        .removalListener(new MyRemovalListener<>(statistics, customRemovalListener))
+        .maximumSize(MAX_SIZE)
         .build();
   }
 
@@ -34,6 +42,12 @@ public class GuavaCacheService<T> {
     return cache.getIfPresent(key);
   }
 
+  public void remove(String key) {
+    cache.invalidate(key);
+  }
+
+
+  // 6. Give statistic to user
   public void printStatistics() {
     System.out.println("Average put time: " + statistics.getAveragePutTime() + " ms");
     System.out.println("Number of evictions: " + statistics.getNumberOfCacheEvictions());

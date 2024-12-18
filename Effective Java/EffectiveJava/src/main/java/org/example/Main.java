@@ -17,9 +17,11 @@ public class Main {
 
     for (int i = 0; i < LIMIT; i++) {
       if(new Random().nextInt(10) % 2 == 0) {
+        System.out.println("Putting value in.");
         cacheService.put("key" + i, new CacheEntry<>(new Random().nextInt(100)));
       }
       else {
+        System.out.println("Getting value out.");
         cacheService.get("key" + new Random().nextInt(LIMIT));
       }
       Thread.sleep(1);
@@ -31,16 +33,31 @@ public class Main {
   }
 
   public static void main(String[] args) throws InterruptedException {
-    RemovalListener<String, CacheEntry<String>> myListener = new RemovalListener<>() {
-      @Override
-      public void onRemoval(RemovalNotification<String, CacheEntry<String>> notification) {
-        System.out.println("Custom removal logic for key: " + notification.getKey());
-        if (notification.wasEvicted()) {
-          System.out.println("Reason: " + notification.getCause());
-        }
-      }
-    };
 
-    GuavaCacheService<String> myService = new GuavaCacheService<>(myListener);
+    int LIMIT = 50;
+
+    GuavaCacheService<Integer> guavaCacheService = new GuavaCacheService<>(LIMIT / 10, notification -> {
+      System.out.println("Custom removal logic for key: " + notification.getKey());
+      if (notification.wasEvicted()) {
+        System.out.println("Reason: " + notification.getCause());
+      }
+    });
+
+    for (int i = 0; i < LIMIT; i++) {
+      if(new Random().nextInt(10) % 2 == 0) {
+        System.out.println("Putting value in.");
+        guavaCacheService.put("key" + i, new CacheEntry<>(new Random().nextInt(100)));
+      }
+      else {
+        System.out.println("Getting value out.");
+        guavaCacheService.get("key" + new Random().nextInt(LIMIT));
+      }
+      Thread.sleep(1);
+    }
+
+    //Thread.sleep(LIMIT * 10);
+
+    guavaCacheService.printStatistics();
+
   }
 }
