@@ -2,6 +2,11 @@ package org.example.part3;
 
 public class BinarySearch {
 
+  public static int binarySearchUnsortedArray(int[] array, int target, SortStrategy sortStrategy) {
+    sortStrategy.sort(array);
+    return binarySearchIteratively(array, target);
+  }
+
   public static int binarySearchIteratively(int[] array, int target) {
     int low = 0, high = array.length - 1;
 

@@ -1,3 +1,6 @@
+
+Cache services.
+
 1. Max Size = 100 000 + +
 2. Eviction policy + +
 3. Time-based on last access (5 seconds) + +
@@ -7,3 +10,7 @@
 7. Average time spent for putting new values into cache + +
 8. Number of cache evictions + +
 9. Support concurrency + +
+
+Binary search -> Time complexity is log(N), because we eliminate half
+of the array in every check.
+
