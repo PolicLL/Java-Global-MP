@@ -1,4 +1,4 @@
-package org.example.part3;
+package org.example.part3.sort;
 
 public class MergeSort {
 
@@ -14,9 +14,6 @@ public class MergeSort {
       partition(array, start, middle, middle + 1, end);
     }
   }
-
-  // 9, 10, 11, 1, 2, 3
-  // 0   1   2  3  4  5
 
   public static void partition(int[] array, int start1, int end1, int start2, int end2) {
     // setup 1

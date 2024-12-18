@@ -4,7 +4,7 @@ package part3;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.util.stream.Stream;
-import org.example.part3.MergeSort;
+import org.example.part3.sort.MergeSort;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -42,13 +42,13 @@ public class MergeSortTest {
 
   public static Stream<Arguments> provideDataForPartition() {
     return Stream.of(
-        // Example where both subarrays have multiple elements
+        // Example where both sub-arrays have multiple elements
         Arguments.of(new int[] {3, 6, 8, 2, 4, 5}, 0, 2, 3, 5, new int[] {2, 3, 4, 5, 6, 8}),
 
-        // Subarrays with one element each
+        // Sub-arrays with one element each
         Arguments.of(new int[] {5, 1}, 0, 0, 1, 1, new int[] {1, 5}),
 
-        // Subarrays with one element and the other with multiple elements
+        // Sub-arrays with one element and the other with multiple elements
         Arguments.of(new int[] {1, 5, 7, 8, 2}, 0, 3, 4, 4, new int[] {1, 2, 5, 7, 8}),
 
         // All elements same
@@ -60,7 +60,7 @@ public class MergeSortTest {
         // Entire array already sorted naturally through input
         Arguments.of(new int[] {1, 2, 3, 4, 5, 6}, 0, 2, 3, 5, new int[] {1, 2, 3, 4, 5, 6}),
 
-        // Subarray at the beginning and the end with mixed middle section
+        // Sub-array at the beginning and the end with mixed middle section
         Arguments.of(new int[] {9, 10, 11, 1, 2, 3}, 0, 2, 3, 5, new int[] {1, 2, 3, 9, 10, 11})
 
     );

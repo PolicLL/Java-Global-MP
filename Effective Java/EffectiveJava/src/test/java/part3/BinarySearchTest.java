@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.stream.Stream;
 import org.example.part3.BinarySearch;
-import org.example.part3.InsertionSortStrategy;
-import org.example.part3.MergeSortStrategy;
-import org.example.part3.SortStrategy;
+import org.example.part3.sort.InsertionSortStrategy;
+import org.example.part3.sort.MergeSortStrategy;
+import org.example.part3.sort.SortStrategy;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -50,13 +50,10 @@ public class BinarySearchTest {
 
   private static Stream<Arguments> provideSearchData() {
     return Stream.of(
-        // Existing Test Cases
         Arguments.of(new int[] {3, 5, 1, 8}, 5, new InsertionSortStrategy(), 2),
         Arguments.of(new int[] {3, 5, 1, 8}, 5, new MergeSortStrategy(), 2),
         Arguments.of(new int[] {3, 5, -2, 8}, -2, new InsertionSortStrategy(), 0),
         Arguments.of(new int[] {3, 5, -2, 8}, -2, new MergeSortStrategy(), 0),
-
-        // New Longer Test Cases
         Arguments.of(new int[] {20, 11, 25, 1, 3, 6, 19, 4, 21, 15}, 21, new InsertionSortStrategy(), 8),
         Arguments.of(new int[] {20, 11, 25, 1, 3, 6, 19, 4, 21, 15}, 21, new MergeSortStrategy(), 8),
         Arguments.of(new int[] {31, 12, 16, 9, 8, 27, -5, 18}, -5, new InsertionSortStrategy(), 0),

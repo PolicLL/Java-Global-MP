@@ -1,5 +1,7 @@
 package org.example.part3;
 
+import org.example.part3.sort.SortStrategy;
+
 public class BinarySearch {
 
   public static int binarySearchUnsortedArray(int[] array, int target, SortStrategy sortStrategy) {

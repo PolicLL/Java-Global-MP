@@ -1,4 +1,4 @@
-package org.example.part3;
+package org.example.part3.sort;
 
 public class InsertionSort {
   public static void sort(int[] array) {

@@ -3,7 +3,7 @@ package part3;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import java.util.stream.Stream;
-import org.example.part3.InsertionSort;
+import org.example.part3.sort.InsertionSort;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
