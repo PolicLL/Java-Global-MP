@@ -57,30 +57,7 @@ public class CacheService<T> {
    * Method that runs every second and removes elements that are not accessed in last 5 seconds.
    */
   private void scheduleTimedEviction() {
-    Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
-      long currentTime = System.currentTimeMillis();
-      List<String> keysToRemove = new ArrayList<>();
-
-      for (Map.Entry<String, CacheEntry<T>> entry : cache.entrySet()) {
-        if (currentTime - entry.getValue().getLastAccessTime() >= 5000) {
-          keysToRemove.add(entry.getKey());
-        }
-      }
-
-      for (String key : keysToRemove) {
-        remove(key);
-      }
-    }, 0, 1, TimeUnit.SECONDS);
-  }
-
-  /**
-   * 3. Time-based on last access (5 seconds)
-   *
-   * Method that runs every second and removes elements that are not accessed in last 5 seconds.
-   */
-  private void scheduleTimedEviction2() {
     scheduledFuture = executorService.scheduleAtFixedRate(() -> {
-      //log.info("ENTERED scheduleTimedEviction()");
       long currentTime = System.currentTimeMillis();
       List<String> keysToRemove = new ArrayList<>();
 
@@ -94,7 +71,7 @@ public class CacheService<T> {
         remove(key);
       }
 
-      //stopIfCacheEmpty();
+      stopIfCacheEmpty();
 
     }, 0, 1, TimeUnit.SECONDS);
   }

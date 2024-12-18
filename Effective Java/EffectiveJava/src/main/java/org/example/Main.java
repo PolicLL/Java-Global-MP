@@ -8,7 +8,7 @@ import org.example.part1LFU.CacheService;
 import org.example.part2LRU.GuavaCacheService;
 
 public class Main {
-  public static void main2(String[] args) throws InterruptedException {
+  public static void main(String[] args) throws InterruptedException {
 
     int LIMIT = 50;
 
@@ -32,9 +32,9 @@ public class Main {
     cacheService.printStatistics();
   }
 
-  public static void main(String[] args) throws InterruptedException {
+  public static void main2(String[] args) throws InterruptedException {
 
-    int LIMIT = 50;
+    int LIMIT = 5000;
 
     GuavaCacheService<Integer> guavaCacheService = new GuavaCacheService<>(LIMIT / 10, notification -> {
       System.out.println("Custom removal logic for key: " + notification.getKey());
