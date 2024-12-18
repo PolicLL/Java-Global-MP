@@ -94,7 +94,46 @@
   </dependencies>
 
   <build>
+    <sourceDirectory>src/main/java</sourceDirectory> <!-- default source directory -->
+    <testSourceDirectory>src/test/java</testSourceDirectory> <!-- default test source directory -->
+
     <plugins>
+      <!-- Compiler plugin to exclude benchmark classes in normal compilation -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <!-- Exclude JMH benchmark classes from normal compilation -->
+              <excludes>
+                <exclude>**/*Benchmark.java</exclude>
+              </excludes>
+            </configuration>
+          </execution>
+          <execution>
+            <!-- Compile JMH benchmark classes separately -->
+            <id>compile-benchmarks</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <includes>
+                <include>**/*Benchmark.java</include>
+              </includes>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Shade plugin to create a single executable jar for benchmarks -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -108,8 +147,13 @@
             <configuration>
               <finalName>benchmark</finalName>
               <transformers>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <mainClass>org.openjdk.jmh.Main</mainClass>
+                </transformer>
+                <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+                  <resource>META-INF/BenchmarkList</resource>
+                  <file>${project.build.directory}/classes/META-INF/BenchmarkList</file>
                 </transformer>
               </transformers>
             </configuration>
