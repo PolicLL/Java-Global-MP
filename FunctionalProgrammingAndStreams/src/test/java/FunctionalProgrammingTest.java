@@ -183,23 +183,27 @@ public class FunctionalProgrammingTest {
     assertEquals(2, resultMap.size());
     assertTrue(resultMap.get("odd") == 16 && resultMap.get("even") == 12);
   }
-//
-//  @Test
-//  void testCustomAggregation() {
-//    Stream<Prop> props = Stream.of(new Prop(UUID.randomUUID(), 10),
-//        new Prop(UUID.randomUUID(), 50), new Prop(UUID.randomUUID(), 20));
-//    Map<String, String> resultMap = customAggregation(props);
-//    assertEquals("Banana", resultMap.get("highest"));
-//    assertEquals("Apple", resultMap.get("lowest"));
-//  }
-//
-//  @Test
-//  void testFold() {
-//    Stream<Function<String, String>> functions = Stream.of(String::trim, s -> s.replace('b', 'c'));
-//    Function<String, String> f = fold(functions);
-//    assert f != null;
-//    assertEquals("cat", f.apply("  bat"));
-//  }
+
+  @Test
+  void testCustomAggregation() {
+    Prop p1 = new Prop(UUID.randomUUID(),  "Name1", 10);
+    Prop p2 = new Prop(UUID.randomUUID(),  "Name2",20);
+    Prop p3 = new Prop(UUID.randomUUID(),  "Name3", 40);
+    Prop p4 = new Prop(UUID.randomUUID(),  "Name4", 60);
+    Prop p5 = new Prop(UUID.randomUUID(),  "Name5", -10);
+    Prop p6 = new Prop(UUID.randomUUID(),  "Name6", 30);
+    Map<String, String> resultMap = customAggregation(Stream.of(p1, p2, p3, p4, p5, p6));
+    assertEquals("Name4", resultMap.get("max"));
+    assertEquals("Name5", resultMap.get("min"));
+  }
+
+  @Test
+  void testFold() {
+    Stream<Function<String, String>> functions = Stream.of(String::trim, s -> s.replace('b', 'c'));
+    Function<String, String> f = fold(functions);
+    assert f != null;
+    assertEquals("cat", f.apply("  bat"));
+  }
 //
 //  @Test
 //  void testAdvancedCollectors() {

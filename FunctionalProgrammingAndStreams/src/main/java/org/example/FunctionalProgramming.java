@@ -92,7 +92,14 @@ public class FunctionalProgramming {
   }
 
   public static Map<String, String> customAggregation(Stream<Prop> props) {
-    return null;
+    return props.collect(Collectors.teeing(
+        Collectors.maxBy(Comparator.comparing(Prop::value)),
+        Collectors.minBy(Comparator.comparing(Prop::value)),
+        (max, min) -> Map.of(
+            "max", Objects.requireNonNull(max.map(Prop::name).orElse(null)),
+            "min", Objects.requireNonNull(min.map(Prop::name).orElse(null))
+        )
+    ));
   }
 
   public static <T> Function<T, T> fold(Stream<Function<T, T>> functions) {
