@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -39,7 +40,7 @@ public class FunctionalProgrammingTest {
 
     resultStream = generate(n);
     Set<UUID> ids = resultStream.map(Prop::id).collect(Collectors.toSet());
-    assertEquals(n, ids.size(), "All ids should be unique.");
+    assertEquals(n, ids.size());
 
     resultStream = generate(n);
     List<Integer> values = resultStream.map(Prop::value).toList();
@@ -90,7 +91,7 @@ public class FunctionalProgrammingTest {
   @Test
   void testSortProps() {
     Prop p1 = new Prop(UUID.randomUUID(), "Ana",30);
-    Prop p2 = new Prop(UUID.randomUUID(), "Bena", 30);
+    Prop p2 = new Prop(UUID.randomUUID(), "Bea", 30);
     Prop p3 = new Prop(UUID.randomUUID(), "Tina", 20);
     Stream<Prop> props = Stream.of(p1, p2, p3);
     List<Prop> sortedList = sortProps(props);
@@ -109,7 +110,7 @@ public class FunctionalProgrammingTest {
     Stream<Prop> props = Stream.of(p1, p2, p3);
     List<Prop> filteredList = filterNonNullName(props);
     assertNotNull(filteredList, "Filtered list should not be null.");
-    assertEquals(2, filteredList.size(), "There should be two Props with non-null names.");
+    assertEquals(2, filteredList.size());
     assertTrue(filteredList.stream().anyMatch(prop -> 10 == prop.value()));
     assertTrue(filteredList.stream().anyMatch(prop -> 30 == prop.value()));
   }
@@ -134,8 +135,11 @@ public class FunctionalProgrammingTest {
     Prop p2 = new Prop(UUID.randomUUID(), null,20);
     Prop p3 = new Prop(UUID.randomUUID(), "C", 30);
     Stream<Prop> props = Stream.of(p1, p2, p3);
-    Prop maxProp = highestValueName(props).get();
-    assertEquals(p3.name(), maxProp.name());
+    Optional<Prop> maxProp = highestValueName(props);
+
+    assertTrue(maxProp.isPresent(), "Optional should not be empty");
+
+    maxProp.ifPresent(prop -> assertEquals(p3.name(), prop.name()));
   }
 
   @Test
@@ -146,8 +150,10 @@ public class FunctionalProgrammingTest {
     Prop p4 = new Prop(UUID.randomUUID(),  "Name3", 30);
     Prop p5 = new Prop(UUID.randomUUID(),  "Name3", 30);
     Prop p6 = new Prop(UUID.randomUUID(),  "Name4", 30);
+
     Stream<Prop> props = Stream.of(p1, p2, p3, p4, p5, p6);
     Map<String, List<UUID>> conflicts = nameConflicts(props);
+
     assertEquals(2, conflicts.size());
     assertTrue(conflicts.containsKey(p1.name()));
     assertEquals(2, conflicts.get(p1.name()).size());
@@ -155,13 +161,15 @@ public class FunctionalProgrammingTest {
 
   @Test
   void testStatefulCollectors() {
-    Prop p1 = new Prop(UUID.randomUUID(), "Name1", 10);
+    Prop p1 = new Prop(UUID.randomUUID(),  "Name1", 10);
     Prop p2 = new Prop(UUID.randomUUID(),  "Name2",20);
     Prop p3 = new Prop(UUID.randomUUID(),  "Name1", 30);
     Prop p4 = new Prop(UUID.randomUUID(),  "Name3", 30);
     Prop p5 = new Prop(UUID.randomUUID(),  "Name3", 30);
     Prop p6 = new Prop(UUID.randomUUID(),  "Name4", 30);
+
     Map<String, Integer> resultMap = statefulCollectors(Stream.of(p1, p2, p3, p4, p5, p6));
+
     assertEquals(4, resultMap.size());
     assertTrue(resultMap.get(p1.name()) == 40 && resultMap.get(p6.name()) == 30);
   }
@@ -169,7 +177,9 @@ public class FunctionalProgrammingTest {
   @Test
   void testCollectorChaining() {
     Stream<Integer> numbers = Stream.of(1, 2, 3, 4, 5, 6, 7);
+
     Map<String, Integer> resultMap = collectorChaining(numbers);
+
     assertEquals(2, resultMap.size());
     assertTrue(resultMap.get("odd") == 16 && resultMap.get("even") == 12);
   }
