@@ -75,95 +75,104 @@ public class FunctionalProgrammingTest {
     String word = firstWord.map(String::valueOf).collect(Collectors.joining());
     assertEquals("Hello", word, "The first word should be 'Hello'.");
   }
-//
-//  @Test
-//  void testNonNullProperties() {
-//    Stream<Prop> props = Stream.of(new Prop(UUID.randomUUID(), 10),
-//        new Prop(UUID.randomUUID(), 20), new Prop(UUID.randomUUID(), 30));
-//    Stream<String> nonNullProperties = nonNullProperties(props);
-//    assert nonNullProperties != null;
-//    List<String> properties = nonNullProperties.toList();
-//    assertEquals(2, properties.size(), "There should be two non-null properties.");
-//    assertTrue(properties.contains("Apple") && properties.contains("Banana"), "Properties should include 'Apple' and 'Banana'.");
-//  }
-//
-//  @Test
-//  void testSortProps() {
-//    Prop p1 = new Prop(UUID.randomUUID(), 30);
-//    Prop p2 = new Prop(UUID.randomUUID(), 10);
-//    Prop p3 = new Prop(UUID.randomUUID(), 20);
-//    Stream<Prop> props = Stream.of(p1, p2, p3);
-//    List<Prop> sortedList = sortProps(props);
-//    assertNotNull(sortedList, "Sorted list should not be null.");
-//    assertEquals(p2.value(), sortedList.get(0).value(), "Apple should come first based on assumed sorting criteria.");
-//    assertEquals(p3.value(), sortedList.get(1).value(), "Banana should come second.");
-//    assertEquals(p1.value(), sortedList.get(2).value(), "Orange should come last.");
-//  }
-//
-//  @Test
-//  void testFilterNonNullName() {
-//    Prop p1 = new Prop(UUID.randomUUID(), 10);
-//    Prop p2 = new Prop(UUID.randomUUID(), 20);
-//    Prop p3 = new Prop(UUID.randomUUID(), 30);
-//    Stream<Prop> props = Stream.of(p1, p2, p3);
-//    List<Prop> filteredList = filterNonNullName(props);
-//    assertNotNull(filteredList, "Filtered list should not be null.");
-//    assertEquals(2, filteredList.size(), "There should be two Props with non-null names.");
-//    assertTrue(filteredList.stream().anyMatch(prop -> 10 == prop.value()));
-//    assertTrue(filteredList.stream().anyMatch(prop -> 20 == prop.value()));
-//  }
-//
-//  @Test
-//  void testUniqueIds() {
-//    UUID id = UUID.randomUUID();
-//    Prop p1 = new Prop(id, 10);
-//    Prop p2 = new Prop(id, 20);
-//    Prop p3 = new Prop(UUID.randomUUID(), 30);
-//    Stream<Prop> props = Stream.of(p1, p2, p3);
-//    List<Prop> filtered = filterUniqueIds(props);
-//    assert filtered != null;
-//    assertEquals(2, filtered.size(), "Only two unique IDs should be present.");
-//  }
-//
-//  @Test
-//  void testHighestValueName() {
-//    Prop p1 = new Prop(UUID.randomUUID(), 10);
-//    Prop p2 = new Prop(UUID.randomUUID(), 40);
-//    Stream<Prop> props = Stream.of(p1, p2);
-//    String name = highestValueName(props);
-//    assertEquals("B", name, "The name of the highest value prop should be B.");
-//  }
-//
-//  @Test
-//  void testNameConflicts() {
-//    Prop p1 = new Prop(UUID.randomUUID(), 10);
-//    Prop p2 = new Prop(UUID.randomUUID(),  20);
-//    Prop p3 = new Prop(UUID.randomUUID(),  30);
-//    Stream<Prop> props = Stream.of(p1, p2, p3);
-//    Map<String, List<UUID>> conflicts = nameConflicts(props);
-//    assert conflicts != null;
-//    assertEquals(1, conflicts.size(), "There should be one name conflict.");
-//    assertTrue(conflicts.containsKey("A"), "The conflict should be on the name A.");
-//    assertEquals(2, conflicts.get("A").size(), "There should be two IDs under name A.");
-//  }
-//
-//  @Test
-//  void testStatefulCollectors() {
-//    Stream<Prop> props = Stream.of(new Prop(UUID.randomUUID(), 10), new Prop(UUID.randomUUID(), 20), new Prop(UUID.randomUUID(), 30));
-//    Map<String, Integer> resultMap = statefulCollectors(props);
-//    assert resultMap != null;
-//    assertEquals(2, resultMap.size());
-//    assertTrue(resultMap.get("Apple") == 40 && resultMap.get("Banana") == 20);
-//  }
-//
-//  @Test
-//  void testCollectorChaining() {
-//    Stream<Integer> numbers = Stream.of(1, 2, 3, 4, 5);
-//    Map<String, Integer> resultMap = collectorChaining(numbers);
-//    assert resultMap != null;
-//    assertEquals(2, resultMap.size());
-//    assertTrue(resultMap.get("odd") == 9 && resultMap.get("even") == 6);
-//  }
+
+  @Test
+  void testNonNullProperties() {
+    Stream<Prop> props = Stream.of(new Prop(UUID.randomUUID(), "", 10),
+        new Prop(null, "Banana",0), new Prop(UUID.randomUUID(),"Apple", 30));
+    Stream<String> nonNullProperties = nonNullProperties(props);
+    List<String> properties = nonNullProperties.toList();
+    System.out.println(properties);
+    assertEquals(7, properties.size(), "There should be seven non-null properties.");
+    assertTrue(properties.contains("Apple") && properties.contains("Banana"), "Properties should include 'Apple' and 'Banana'.");
+  }
+
+  @Test
+  void testSortProps() {
+    Prop p1 = new Prop(UUID.randomUUID(), "Ana",30);
+    Prop p2 = new Prop(UUID.randomUUID(), "Bena", 30);
+    Prop p3 = new Prop(UUID.randomUUID(), "Tina", 20);
+    Stream<Prop> props = Stream.of(p1, p2, p3);
+    List<Prop> sortedList = sortProps(props);
+    System.out.println(sortedList);
+    assertNotNull(sortedList, "Sorted list should not be null.");
+    assertEquals(p3.value(), sortedList.get(0).value());
+    assertEquals(p1.value(), sortedList.get(1).value());
+    assertEquals(p2.value(), sortedList.get(2).value());
+  }
+
+  @Test
+  void testFilterNonNullName() {
+    Prop p1 = new Prop(UUID.randomUUID(), "A",10);
+    Prop p2 = new Prop(UUID.randomUUID(), null,20);
+    Prop p3 = new Prop(UUID.randomUUID(), "C", 30);
+    Stream<Prop> props = Stream.of(p1, p2, p3);
+    List<Prop> filteredList = filterNonNullName(props);
+    assertNotNull(filteredList, "Filtered list should not be null.");
+    assertEquals(2, filteredList.size(), "There should be two Props with non-null names.");
+    assertTrue(filteredList.stream().anyMatch(prop -> 10 == prop.value()));
+    assertTrue(filteredList.stream().anyMatch(prop -> 30 == prop.value()));
+  }
+
+  @Test
+  void testUniqueIds() {
+    UUID id = UUID.randomUUID();
+    Prop p1 = new Prop(id, "A",10);
+    Prop p2 = new Prop(UUID.randomUUID(), null,20);
+    Prop p3 = new Prop(id, "C", 30);
+    Stream<Prop> props = Stream.of(p1, p2, p3);
+    List<Prop> filtered = filterUniqueIds(props);
+    System.out.println(filtered);
+    assertEquals(2, filtered.size(), "Only two unique IDs should be present.");
+    assertTrue(filtered.contains(p1));
+    assertTrue(filtered.contains(p2));
+  }
+
+  @Test
+  void testHighestValueName() {
+    Prop p1 = new Prop(UUID.randomUUID(), "A",10);
+    Prop p2 = new Prop(UUID.randomUUID(), null,20);
+    Prop p3 = new Prop(UUID.randomUUID(), "C", 30);
+    Stream<Prop> props = Stream.of(p1, p2, p3);
+    Prop maxProp = highestValueName(props).get();
+    assertEquals(p3.name(), maxProp.name());
+  }
+
+  @Test
+  void testNameConflicts() {
+    Prop p1 = new Prop(UUID.randomUUID(), "Name1", 10);
+    Prop p2 = new Prop(UUID.randomUUID(),  "Name2",20);
+    Prop p3 = new Prop(UUID.randomUUID(),  "Name1", 30);
+    Prop p4 = new Prop(UUID.randomUUID(),  "Name3", 30);
+    Prop p5 = new Prop(UUID.randomUUID(),  "Name3", 30);
+    Prop p6 = new Prop(UUID.randomUUID(),  "Name4", 30);
+    Stream<Prop> props = Stream.of(p1, p2, p3, p4, p5, p6);
+    Map<String, List<UUID>> conflicts = nameConflicts(props);
+    assertEquals(2, conflicts.size());
+    assertTrue(conflicts.containsKey(p1.name()));
+    assertEquals(2, conflicts.get(p1.name()).size());
+  }
+
+  @Test
+  void testStatefulCollectors() {
+    Prop p1 = new Prop(UUID.randomUUID(), "Name1", 10);
+    Prop p2 = new Prop(UUID.randomUUID(),  "Name2",20);
+    Prop p3 = new Prop(UUID.randomUUID(),  "Name1", 30);
+    Prop p4 = new Prop(UUID.randomUUID(),  "Name3", 30);
+    Prop p5 = new Prop(UUID.randomUUID(),  "Name3", 30);
+    Prop p6 = new Prop(UUID.randomUUID(),  "Name4", 30);
+    Map<String, Integer> resultMap = statefulCollectors(Stream.of(p1, p2, p3, p4, p5, p6));
+    assertEquals(4, resultMap.size());
+    assertTrue(resultMap.get(p1.name()) == 40 && resultMap.get(p6.name()) == 30);
+  }
+
+  @Test
+  void testCollectorChaining() {
+    Stream<Integer> numbers = Stream.of(1, 2, 3, 4, 5, 6, 7);
+    Map<String, Integer> resultMap = collectorChaining(numbers);
+    assertEquals(2, resultMap.size());
+    assertTrue(resultMap.get("odd") == 16 && resultMap.get("even") == 12);
+  }
 //
 //  @Test
 //  void testCustomAggregation() {

@@ -1,14 +1,17 @@
 package org.example;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class FunctionalProgramming {
@@ -32,36 +35,60 @@ public class FunctionalProgramming {
   }
 
   public static Stream<String> nonNullProperties(Stream<Prop> props) {
-    return null;
+    return props.flatMap(value -> Stream.of(
+        value.id() != null ? String.valueOf(value.id()) : null,
+        value.name() != null && !value.name().trim().isEmpty() ? value.name() : null,
+        String.valueOf(value.value())
+    ).filter(Objects::nonNull));
   }
 
   public static List<Prop> sortProps(Stream<Prop> props) {
-    return null;
+    return props
+        .sorted(Comparator.comparingInt(Prop::value)
+            .thenComparing(Prop::name))
+        .toList();
   }
 
+
   public static List<Prop> filterNonNullName(Stream<Prop> props) {
-    return null;
+    return props.filter(value -> value.name() != null).toList();
   }
 
   public static List<Prop> filterUniqueIds(Stream<Prop> props) {
-    return null;
+    return props
+        .collect(Collectors.toMap(Prop::id, prop -> prop, (existing, replacement) -> existing))
+        .values()
+        .stream()
+        .toList();
   }
 
-  public static String highestValueName(Stream<Prop> props) {
-    return null;
+  public static Optional<Prop> highestValueName(Stream<Prop> props) {
+    return props.max(Comparator.comparing(Prop::value));
   }
 
   public static Map<String, List<UUID>> nameConflicts(Stream<Prop> props) {
-    return null;
+    return props.collect(Collectors.groupingBy(
+        Prop::name,
+        Collectors.mapping(Prop::id, Collectors.toList())
+    ))
+        .entrySet()
+        .stream()
+        .filter(entity -> entity.getValue().size() > 1)
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
   }
 
 
   public static Map<String, Integer> statefulCollectors(Stream<Prop> props) {
-    return null;
+    return props.collect(Collectors.groupingBy(
+        Prop::name, Collectors.summingInt(Prop::value)
+    ));
   }
 
   public static Map<String, Integer> collectorChaining(Stream<Integer> numbers) {
-    return null;
+    return numbers.collect(Collectors.groupingBy(
+        n -> (n % 2 == 0) ? "even" : "odd",
+        Collectors.summingInt(Integer::intValue)
+    ));
   }
 
   public static Map<String, String> customAggregation(Stream<Prop> props) {
