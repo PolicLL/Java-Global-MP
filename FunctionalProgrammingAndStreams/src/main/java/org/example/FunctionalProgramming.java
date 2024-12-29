@@ -103,20 +103,52 @@ public class FunctionalProgramming {
   }
 
   public static <T> Function<T, T> fold(Stream<Function<T, T>> functions) {
-    return null;
+    return functions.reduce(Function.identity(), Function::andThen);
   }
+
 
   public static <T, RT, AT, RF, AF, R> Collector<T, ?, R> partitioningCollector(
       Predicate<? super T> predicate,
       Collector<? super T, AT, RT> collTrue,
       Collector<? super T, AF, RF> collFalse,
-      BiFunction<RT, RF, R> constructor
-  ) {
-    return null;
+      BiFunction<RT, RF, R> constructor) {
+
+    return Collector.of(
+        // initialize empty accumulators
+        () -> new Pair<>(
+            collTrue.supplier().get(),
+            collFalse.supplier().get()
+        ),
+        // check every element using predicate (in this case checking nullability)
+        (pair, element) -> {
+          if (predicate.test(element)) {
+            collTrue.accumulator().accept(pair.first, element);
+          } else {
+            collFalse.accumulator().accept(pair.second, element);
+          }
+        },
+        (pair1, pair2) -> new Pair<>(
+            collTrue.combiner().apply(pair1.first, pair2.first),
+            collFalse.combiner().apply(pair1.second, pair2.second)
+        ),
+        pair -> constructor.apply(
+            collTrue.finisher().apply(pair.first),
+            collFalse.finisher().apply(pair.second)
+        )
+    );
+  }
+    record Pair<A, B>(A first, B second) {
+
   }
 
-  public static Map<String, Integer> advancedCollectors(Stream<Integer> numbers) {
-    return null;
+  public static Map<String, Integer> sumAndCountNulls(Stream<Integer> stream) {
+    return stream.collect(partitioningCollector(
+        Objects::nonNull,
+        Collectors.summingInt(Integer::intValue),
+        Collectors.counting(),
+        (sum, count) -> Map.of("sum", sum, "nullCount", count.intValue())
+    ));
   }
+
 
 }

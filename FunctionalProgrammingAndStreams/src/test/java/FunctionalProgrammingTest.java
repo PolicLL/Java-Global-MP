@@ -1,4 +1,3 @@
-import static org.example.FunctionalProgramming.advancedCollectors;
 import static org.example.FunctionalProgramming.collectorChaining;
 import static org.example.FunctionalProgramming.countEvens;
 import static org.example.FunctionalProgramming.customAggregation;
@@ -12,6 +11,7 @@ import static org.example.FunctionalProgramming.nameConflicts;
 import static org.example.FunctionalProgramming.nonNullProperties;
 import static org.example.FunctionalProgramming.sortProps;
 import static org.example.FunctionalProgramming.statefulCollectors;
+import static org.example.FunctionalProgramming.sumAndCountNulls;
 import static org.example.FunctionalProgramming.toIds;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -201,18 +201,16 @@ public class FunctionalProgrammingTest {
   void testFold() {
     Stream<Function<String, String>> functions = Stream.of(String::trim, s -> s.replace('b', 'c'));
     Function<String, String> f = fold(functions);
-    assert f != null;
     assertEquals("cat", f.apply("  bat"));
   }
-//
-//  @Test
-//  void testAdvancedCollectors() {
-//    Stream<Integer> numbers = Stream.of(1, 2, null, 4, null, 6);
-//    Map<String, Integer> result = advancedCollectors(numbers);
-//    assert result != null;
-//    assertEquals(2, result.size());
-//    assertTrue(result.get("sum") == 13 && result.get("nullCount") == 2);
-//  }
+
+  @Test
+  void testAdvancedCollectors() {
+    Stream<Integer> numbers = Stream.of(1, 2, null, 4, null, 6);
+    Map<String, Integer> result = sumAndCountNulls(numbers);
+    assertEquals(2, result.size());
+    assertTrue(result.get("sum").equals(13) && result.get("nullCount").equals(2));
+  }
 
 
 }
