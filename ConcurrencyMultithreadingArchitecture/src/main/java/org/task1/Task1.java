@@ -1,5 +1,7 @@
 package org.task1;
 
+import static utils.Constants.sleepForSomeTime;
+
 import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 import java.util.Map;
@@ -114,14 +116,5 @@ public class Task1 {
     }
 
     System.out.println("Final Map: " + map);
-  }
-
-  private static void sleepForSomeTime(int ms) {
-    try {
-      Thread.sleep(ms);
-    } catch (InterruptedException e) {
-      Thread.currentThread().interrupt();
-      e.printStackTrace();
-    }
   }
 }
