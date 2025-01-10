@@ -11,6 +11,7 @@ public class ConcreteConsumer implements MyConsumer{
 
   @Override
   public void action(Message message) {
+    // Do something with message.
     System.out.printf("[%s] Consuming message " + message + ".%n", name);
   }
 }
