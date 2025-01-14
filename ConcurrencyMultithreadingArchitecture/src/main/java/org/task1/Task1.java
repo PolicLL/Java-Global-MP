@@ -80,7 +80,6 @@ public class Task1 {
   }
 
   public static void customApproach(int VALUE, int ms) {
-
     final ThreadSafeMap<Integer, Integer> map = new ThreadSafeMap<>();
 
     Thread writerThread = new Thread(() -> {
