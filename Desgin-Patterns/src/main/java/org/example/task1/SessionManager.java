@@ -18,9 +18,9 @@ public class SessionManager  {
   }
 
 
-  public Session createSession(User user, String accessedPath,  AccessLevel requiredAccessLevel) {
+  public void createSession(User user, String accessedPath,  AccessLevel requiredAccessLevel) {
     if (access.mayAccess(user, accessedPath, requiredAccessLevel)) {
-      return new Session(user);
+      new Session(user);
     } else {
       throw new InsufficientRightsException(user, accessedPath);
     }

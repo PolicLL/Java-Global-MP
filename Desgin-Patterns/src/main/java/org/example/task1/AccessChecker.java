@@ -1,6 +1,5 @@
 package org.example.task1;
 
-import java.util.Objects;
 import org.example.task1.config.ServerConfig;
 import org.example.task1.model.AccessLevel;
 import org.example.task1.model.User;
