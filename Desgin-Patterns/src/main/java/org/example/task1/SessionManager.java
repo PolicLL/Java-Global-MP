@@ -1,6 +1,7 @@
 package org.example.task1;
 
 import org.example.task1.exception.InsufficientRightsException;
+import org.example.task1.model.AccessLevel;
 import org.example.task1.model.Session;
 import org.example.task1.model.User;
 
@@ -16,4 +17,12 @@ public class SessionManager  {
     }
   }
 
+
+  public Session createSession(User user, String accessedPath,  AccessLevel requiredAccessLevel) {
+    if (access.mayAccess(user, accessedPath, requiredAccessLevel)) {
+      return new Session(user);
+    } else {
+      throw new InsufficientRightsException(user, accessedPath);
+    }
+  }
 }
