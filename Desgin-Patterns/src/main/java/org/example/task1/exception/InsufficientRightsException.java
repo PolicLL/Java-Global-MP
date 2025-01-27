@@ -1,4 +1,6 @@
-package org.example.task1;
+package org.example.task1.exception;
+
+import org.example.task1.model.User;
 
 public class InsufficientRightsException extends RuntimeException {
 

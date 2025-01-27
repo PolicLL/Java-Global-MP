@@ -1,8 +1,12 @@
 package org.example.task1;
 
+import org.example.task1.exception.InsufficientRightsException;
+import org.example.task1.model.Session;
+import org.example.task1.model.User;
+
 public class SessionManager  {
 
-  private AccessChecker access = AccessChecker.getInstance();
+  private final AccessChecker access = AccessChecker.getInstance();
 
   public Session createSession(User user, String accessedPath) {
     if (access.mayAccess(user, accessedPath)) {
