@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <!-- Repositories -->
+  <bean id="userRepository" class="com.example.demo.repository.UserRepository"/>
+  <bean id="eventRepository" class="com.example.demo.repository.EventRepository"/>
+  <bean id="ticketRepository" class="com.example.demo.repository.TicketRepository"/>
+
+  <!-- Services -->
+  <bean id="userService" class="com.example.demo.service.UserService">
+    <constructor-arg ref="userRepository"/>
+  </bean>
+  <bean id="eventService" class="com.example.demo.service.EventService">
+    <constructor-arg ref="eventRepository"/>
+  </bean>
+  <bean id="ticketService" class="com.example.demo.service.TicketService">
+    <constructor-arg ref="ticketRepository"/>
+  </bean>
+
+  <!-- Facade -->
+  <bean id="bookingFacade" class="com.example.demo.facade.BookingFacadeImpl">
+    <constructor-arg ref="userService"/>
+    <constructor-arg ref="eventService"/>
+    <constructor-arg ref="ticketService"/>
+  </bean>
+</beans>
