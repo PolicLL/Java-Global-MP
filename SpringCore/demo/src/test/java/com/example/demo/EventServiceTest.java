@@ -39,16 +39,16 @@ class EventServiceTest {
     assertNotNull(eventRepository.findById(createdEvent.id()));
   }
 
-//  @Test
-//  void getEvent() {
-//    when(eventRepository.findById("Test")).thenReturn(event);
-//
-//    Event foundEvent = eventService.getEvent("Test");
-//
-//    assertNotNull(foundEvent);
-//    assertEquals(event.title(), foundEvent.title());
-//  }
-//
+  @Test
+  void getEvent() {
+    Event createdEvent = eventService.createEvent(eventDto);
+
+    Event foundEvent = eventService.getEvent(createdEvent.id());
+
+    assertNotNull(foundEvent);
+    assertEquals(eventDto.title(), foundEvent.title());
+  }
+
 //  @Test
 //  void updateEvent() {
 //    Event newEvent = Event.builder()

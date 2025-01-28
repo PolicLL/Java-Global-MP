@@ -21,7 +21,7 @@ public class EventService {
         .id(UUID.randomUUID().toString())
         .build();
 
-    eventRepository.save(newEvent);
+    eventRepository.save(newEvent, newEvent.id());
     return newEvent;
   }
 

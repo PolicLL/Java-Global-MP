@@ -12,7 +12,7 @@ public class TicketService {
   }
 
   public Ticket bookTicket(Ticket ticket) {
-    ticketRepository.save(ticket);
+    ticketRepository.save(ticket, "");
     return ticket;
   }
 

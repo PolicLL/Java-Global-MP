@@ -12,7 +12,7 @@ public class UserService {
   }
 
   public User createUser(User user) {
-    userRepository.save(user);
+    userRepository.save(user, "");
     return user;
   }
 

@@ -9,8 +9,7 @@ import java.util.UUID;
 public class GenericRepository<T> {
   private final Map<String, T> storage = new HashMap<>();
 
-    public String save(T entity) {
-    String id = UUID.randomUUID().toString();
+    public String save(T entity, String id) {
     storage.put(id, entity);
     return id;
   }
