@@ -1,4 +1,7 @@
 package com.example.demo.model;
 
-public record Event(Long id, String title, String date) {}
+import lombok.Builder;
+
+@Builder
+public record Event(String id, String title, String date) {}
 

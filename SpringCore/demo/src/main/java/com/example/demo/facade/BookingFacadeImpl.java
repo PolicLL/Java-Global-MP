@@ -1,5 +1,6 @@
 package com.example.demo.facade;
 
+import com.example.demo.dto.EventDto;
 import com.example.demo.model.Event;
 import com.example.demo.model.Ticket;
 import com.example.demo.model.User;
@@ -26,8 +27,8 @@ public class BookingFacadeImpl implements BookingFacade {
   }
 
   @Override
-  public Event createEvent(Event event) {
-    return eventService.createEvent(event);
+  public Event createEvent(EventDto eventDto) {
+    return eventService.createEvent(eventDto);
   }
 
   @Override
@@ -36,22 +37,22 @@ public class BookingFacadeImpl implements BookingFacade {
   }
 
   @Override
-  public User getUser(Long id) {
+  public User getUser(String id) {
     return userService.getUser(id);
   }
 
   @Override
-  public Event getEvent(Long id) {
+  public Event getEvent(String id) {
     return eventService.getEvent(id);
   }
 
   @Override
-  public Ticket getTicket(Long id) {
+  public Ticket getTicket(String id) {
     return ticketService.getTicket(id);
   }
 
   @Override
-  public void cancelTicket(Long id) {
+  public void cancelTicket(String id) {
     ticketService.cancelTicket(id);
   }
 }

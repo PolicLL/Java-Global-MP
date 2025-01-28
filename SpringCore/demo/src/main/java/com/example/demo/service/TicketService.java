@@ -12,11 +12,11 @@ public class TicketService {
   }
 
   public Ticket bookTicket(Ticket ticket) {
-    ticketRepository.save(ticket.id(), ticket);
+    ticketRepository.save(ticket);
     return ticket;
   }
 
-  public Ticket getTicket(Long id) {
+  public Ticket getTicket(String id) {
     return ticketRepository.findById(id);
   }
 
@@ -24,7 +24,7 @@ public class TicketService {
     return ticketRepository.findAll();
   }
 
-  public void cancelTicket(Long id) {
+  public void cancelTicket(String id) {
     ticketRepository.deleteById(id);
   }
 }

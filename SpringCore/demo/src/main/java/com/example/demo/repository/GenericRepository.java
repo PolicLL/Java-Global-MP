@@ -4,15 +4,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class GenericRepository<T> {
-  private final Map<Long, T> storage = new HashMap<>();
+  private final Map<String, T> storage = new HashMap<>();
 
-  public void save(Long id, T entity) {
+    public String save(T entity) {
+    String id = UUID.randomUUID().toString();
     storage.put(id, entity);
+    return id;
   }
 
-  public T findById(Long id) {
+  public T findById(String id) {
     return storage.get(id);
   }
 
@@ -20,7 +23,7 @@ public class GenericRepository<T> {
     return new ArrayList<>(storage.values());
   }
 
-  public void deleteById(Long id) {
+  public void deleteById(String id) {
     storage.remove(id);
   }
 }

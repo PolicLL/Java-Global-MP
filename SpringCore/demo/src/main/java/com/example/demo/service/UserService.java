@@ -12,11 +12,11 @@ public class UserService {
   }
 
   public User createUser(User user) {
-    userRepository.save(user.id(), user);
+    userRepository.save(user);
     return user;
   }
 
-  public User getUser(Long id) {
+  public User getUser(String id) {
     return userRepository.findById(id);
   }
 
@@ -24,7 +24,7 @@ public class UserService {
     return userRepository.findAll();
   }
 
-  public void deleteUser(Long id) {
+  public void deleteUser(String id) {
     userRepository.deleteById(id);
   }
 }

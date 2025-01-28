@@ -1,5 +1,6 @@
 package com.example.demo.facade;
 
+import com.example.demo.dto.EventDto;
 import com.example.demo.model.Event;
 import com.example.demo.model.Ticket;
 import com.example.demo.model.User;
@@ -7,15 +8,15 @@ import com.example.demo.model.User;
 public interface BookingFacade {
   User createUser(User user);
 
-  Event createEvent(Event event);
+  Event createEvent(EventDto event);
 
   Ticket bookTicket(Ticket ticket);
 
-  User getUser(Long id);
+  User getUser(String id);
 
-  Event getEvent(Long id);
+  Event getEvent(String id);
 
-  Ticket getTicket(Long id);
+  Ticket getTicket(String id);
 
-  void cancelTicket(Long id);
+  void cancelTicket(String id);
 }
