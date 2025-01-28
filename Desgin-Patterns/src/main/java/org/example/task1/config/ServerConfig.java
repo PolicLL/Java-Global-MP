@@ -10,7 +10,7 @@ public class ServerConfig {
   private static volatile ServerConfig instance;
   private static final String DEFAULT_FILE_PATH = "src/main/resources/config.properties";
 
-  private static final Properties properties = new Properties();
+  private static Properties properties;
 
   private ServerConfig(String configFilePath) {
     loadConfig(configFilePath);
@@ -30,6 +30,7 @@ public class ServerConfig {
 
   public static void resetInstance() {
     instance = null;
+    properties = null;
   }
 
   public static ServerConfig getInstance() {
@@ -38,6 +39,7 @@ public class ServerConfig {
 
   private static void loadConfig(String configFilePath) {
     try (FileInputStream fileInputStream = new FileInputStream(configFilePath)) {
+      properties = new Properties();
       properties.load(fileInputStream);
       validateConfig();
     } catch (IOException e) {

@@ -11,6 +11,7 @@ import java.io.IOException;
 import org.example.task1.config.ServerConfig;
 import org.example.task1.model.User;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,11 @@ import org.junit.jupiter.api.TestMethodOrder;
 public class ServerConfigTest {
 
   private static final String TEST_CONFIG_FILE = "test_config.properties";
+
+  @BeforeAll
+  static void setup() {
+    ServerConfig.resetInstance();
+  }
 
   @AfterEach
   void tearDown() {
@@ -44,6 +50,7 @@ public class ServerConfigTest {
 
 
   @Test
+  @Order(3)
   void testGetInstance_withCustomFilePath() throws IOException {
     writeToFile();
 
@@ -52,6 +59,7 @@ public class ServerConfigTest {
   }
 
   @Test
+  @Order(4)
   void testGetAccessLevel_existingUser() throws IOException {
     writeToFile();
 
@@ -62,6 +70,7 @@ public class ServerConfigTest {
   }
 
   @Test
+  @Order(5)
   void testGetAccessLevel_defaultAccessLevel() throws IOException {
     writeToFile();
 

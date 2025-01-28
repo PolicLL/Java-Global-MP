@@ -8,16 +8,23 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.example.task1.SessionManager;
+import org.example.task1.config.ServerConfig;
 import org.example.task1.exception.InsufficientRightsException;
 import org.example.task1.model.AccessLevel;
 import org.example.task1.model.Session;
 import org.example.task1.model.User;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class SessionManagerTest {
 
   private static final String TEMP_CONFIG_FILE = "test_config_part_two.properties";
+
+  @BeforeAll
+  static void setup() {
+    ServerConfig.resetInstance();
+  }
 
   @BeforeEach
   void setUp() throws IOException {
