@@ -27,7 +27,7 @@ class SessionManagerTest {
     }
 
     try (FileWriter writer = new FileWriter(configFile)) {
-      writer.write("default.access.level=user\n");
+      writer.write("default.access.level=guest\n");
       writer.write("user.john_doe.access.level=admin\n");
     }
   }

@@ -1,6 +1,7 @@
 package org.example.task1.model;
 
 public enum AccessLevel {
+  GUEST(0),
   USER(1),
   MANAGER(2),
   ADMIN(3);
@@ -21,6 +22,7 @@ public enum AccessLevel {
 
   public static AccessLevel fromString(String accessLevel) {
     return switch (accessLevel.toLowerCase()) {
+      case "guest" -> GUEST;
       case "user" -> USER;
       case "manager" -> MANAGER;
       case "admin" -> ADMIN;

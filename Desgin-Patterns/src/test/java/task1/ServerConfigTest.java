@@ -22,7 +22,7 @@ public class ServerConfigTest {
   private static final String TEST_CONFIG_FILE = "test_config.properties";
 
   @AfterEach
-  void tearDown() throws IOException {
+  void tearDown() {
     clearFileContent(TEST_CONFIG_FILE);
   }
 

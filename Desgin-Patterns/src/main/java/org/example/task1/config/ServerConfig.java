@@ -8,7 +8,7 @@ import org.example.task1.model.User;
 public class ServerConfig {
 
   private static volatile ServerConfig instance;
-  private static final String DEFAULT_FILE_PATH = "config.properties";
+  private static final String DEFAULT_FILE_PATH = "src/main/resources/config.properties";
 
   private static final Properties properties = new Properties();
 
@@ -26,6 +26,10 @@ public class ServerConfig {
     }
 
     return instance;
+  }
+
+  public static void resetInstance() {
+    instance = null;
   }
 
   public static ServerConfig getInstance() {
