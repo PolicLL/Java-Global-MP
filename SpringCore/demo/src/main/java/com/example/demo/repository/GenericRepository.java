@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class GenericRepository<T> {
   private final Map<String, T> storage = new HashMap<>();
 
-    public String save(T entity, String id) {
+  public String save(T entity, String id) {
     storage.put(id, entity);
+    return id;
+  }
+
+  public String update(T updatedEntity, String id) {
+    storage.put(id, updatedEntity);
     return id;
   }
 

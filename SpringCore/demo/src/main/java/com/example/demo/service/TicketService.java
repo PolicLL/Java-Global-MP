@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.TicketDto;
 import com.example.demo.model.Ticket;
 import com.example.demo.repository.TicketRepository;
 import java.util.List;
@@ -11,7 +12,7 @@ public class TicketService {
     this.ticketRepository = ticketRepository;
   }
 
-  public Ticket bookTicket(Ticket ticket) {
+  public Ticket bookTicket(TicketDto ticket) {
     ticketRepository.save(ticket, "");
     return ticket;
   }

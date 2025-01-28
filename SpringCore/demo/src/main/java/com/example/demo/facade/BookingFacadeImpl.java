@@ -1,6 +1,8 @@
 package com.example.demo.facade;
 
 import com.example.demo.dto.EventDto;
+import com.example.demo.dto.TicketDto;
+import com.example.demo.dto.UserDto;
 import com.example.demo.model.Event;
 import com.example.demo.model.Ticket;
 import com.example.demo.model.User;
@@ -21,19 +23,11 @@ public class BookingFacadeImpl implements BookingFacade {
     this.ticketService = ticketService;
   }
 
+  // USER
+
   @Override
   public User createUser(User user) {
     return userService.createUser(user);
-  }
-
-  @Override
-  public Event createEvent(EventDto eventDto) {
-    return eventService.createEvent(eventDto);
-  }
-
-  @Override
-  public Ticket bookTicket(Ticket ticket) {
-    return ticketService.bookTicket(ticket);
   }
 
   @Override
@@ -42,13 +36,54 @@ public class BookingFacadeImpl implements BookingFacade {
   }
 
   @Override
+  public User updateUser(UserDto userDto) {
+    return null;
+  }
+
+  @Override
+  public void deleteUser(String id) {
+
+  }
+
+
+  // EVENT
+
+  @Override
+  public Event createEvent(EventDto eventDto) {
+    return eventService.createEvent(eventDto);
+  }
+
+  @Override
   public Event getEvent(String id) {
     return eventService.getEvent(id);
   }
 
   @Override
+  public Event updateEvent(EventDto eventDto) {
+    return eventService.updateEvent(eventDto);
+  }
+
+  @Override
+  public void deleteEvent(String id) {
+    eventService.deleteEvent(id);
+  }
+
+  // TICKET
+
+  @Override
+  public Ticket bookTicket(TicketDto ticketDto) {
+    return ticketService.bookTicket(ticketDto);
+  }
+
+
+  @Override
   public Ticket getTicket(String id) {
     return ticketService.getTicket(id);
+  }
+
+  @Override
+  public Ticket updateTicket(TicketDto ticketDto) {
+    return null;
   }
 
   @Override

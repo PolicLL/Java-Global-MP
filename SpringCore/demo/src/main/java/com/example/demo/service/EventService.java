@@ -14,7 +14,6 @@ public class EventService {
   }
 
   public Event createEvent(EventDto event) {
-
     Event newEvent = Event.builder()
         .title(event.title())
         .date(event.date())
@@ -23,6 +22,18 @@ public class EventService {
 
     eventRepository.save(newEvent, newEvent.id());
     return newEvent;
+  }
+
+  public Event updateEvent(EventDto updateEventDto) {
+    Event updatedEvent = Event.builder()
+        .title(updateEventDto.title())
+        .date(updateEventDto.date())
+        .id(updateEventDto.id())
+        .build();
+
+    eventRepository.update(updatedEvent, updatedEvent.id());
+
+    return updatedEvent;
   }
 
   public Event getEvent(String id) {
