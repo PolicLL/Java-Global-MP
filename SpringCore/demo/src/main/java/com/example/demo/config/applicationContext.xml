@@ -3,10 +3,21 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+  <!-- Storage Bean -->
+  <bean id="storage" class="com.example.demo.repository.Storage"/>
+
   <!-- Repositories -->
-  <bean id="userRepository" class="com.example.demo.repository.UserRepository"/>
-  <bean id="eventRepository" class="com.example.demo.repository.EventRepository"/>
-  <bean id="ticketRepository" class="com.example.demo.repository.TicketRepository"/>
+  <bean id="userRepository" class="com.example.demo.repository.UserRepository">
+    <constructor-arg ref="storage"/>
+  </bean>
+
+  <bean id="eventRepository" class="com.example.demo.repository.EventRepository">
+    <constructor-arg ref="storage"/>
+  </bean>
+
+  <bean id="ticketRepository" class="com.example.demo.repository.TicketRepository">
+    <constructor-arg ref="storage"/>
+  </bean>
 
   <!-- Services -->
   <bean id="userService" class="com.example.demo.service.UserService">

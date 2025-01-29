@@ -1,32 +1,32 @@
 package com.example.demo.repository;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class GenericRepository<T> {
-  protected final Map<String, T> storage = new HashMap<>();
+  protected Storage<T> storage;
 
-  public String save(T entity, String id) {
-    storage.put(id, entity);
-    return id;
+  public GenericRepository(Storage<T> storage) {
+    this.storage = storage;
   }
 
-  public String update(T updatedEntity, String id) {
-    storage.put(id, updatedEntity);
-    return id;
+  public void save(T entity, String id) {
+    storage.save(entity, id);
+  }
+
+  public void update(T updatedEntity, String id) {
+    storage.save(updatedEntity, id);
   }
 
   public T findById(String id) {
-    return storage.get(id);
+    return storage.findById(id);
   }
 
   public List<T> findAll() {
-    return new ArrayList<>(storage.values());
+    return new ArrayList<>(storage.getStorage().values());
   }
 
   public void deleteById(String id) {
-    storage.remove(id);
+    storage.getStorage().remove(id);
   }
 }

@@ -17,6 +17,7 @@ import com.example.demo.model.Event;
 import com.example.demo.model.Ticket;
 import com.example.demo.model.User;
 import com.example.demo.repository.EventRepository;
+import com.example.demo.repository.Storage;
 import com.example.demo.repository.TicketRepository;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.EventService;
@@ -42,21 +43,18 @@ class TicketServiceTest {
         .email("john@example.com")
         .build();
 
-    ticketDto = TicketDto.builder()
-        .id("Ticket Id")
-        .seatNumber(1)
-        .userId("User Id 1")
-        .eventId("Event Id 1")
-        .build();
-
     eventDto = EventDto.builder()
         .id("Event Id 1")
         .title("Pera Peric")
         .build();
 
-    UserRepository userRepository = new UserRepository();
-    TicketRepository ticketRepository = new TicketRepository();
-    EventRepository eventRepository = new EventRepository();
+    Storage<User> storageUser = new Storage<>();
+    Storage<Event> storageEvent = new Storage<>();
+    Storage<Ticket> storageTicket = new Storage<>();
+
+    UserRepository userRepository = new UserRepository(storageUser);
+    TicketRepository ticketRepository = new TicketRepository(storageTicket);
+    EventRepository eventRepository = new EventRepository(storageEvent);
 
     TicketService ticketService = new TicketService(
         ticketRepository, TicketMapper.INSTANCE, eventRepository, userRepository);
@@ -66,19 +64,19 @@ class TicketServiceTest {
     EventService eventService = new EventService(eventRepository, EventMapper.INSTANCE);
 
     bookingFacade = new BookingFacadeImpl(userService, eventService, ticketService);
-  }
 
-  @Test
-  void createTicket() {
     User createdUser = bookingFacade.createUser(userDto);
     Event createdEvent = bookingFacade.createEvent(eventDto);
 
-    TicketDto ticketDto = TicketDto.builder()
+    ticketDto = TicketDto.builder()
         .eventId(createdEvent.id())
         .userId(createdUser.id())
         .seatNumber(100)
         .build();
+  }
 
+  @Test
+  void createTicket() {
     Ticket createdTicket = bookingFacade.bookTicket(ticketDto);
 
     assertNotNull(createdTicket);

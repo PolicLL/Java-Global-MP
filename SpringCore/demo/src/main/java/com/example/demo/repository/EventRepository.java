@@ -4,8 +4,11 @@ import com.example.demo.model.Event;
 
 public class EventRepository extends GenericRepository<Event> {
 
-  public boolean doesEventExistsById(String id) {
-    return storage.values().stream().anyMatch(event -> event.id().equals(id));
+  public EventRepository(Storage<Event> storage) {
+    super(storage);
   }
 
+  public boolean doesEventExistsById(String id) {
+    return storage.getStorage().values().stream().anyMatch(event -> event.id().equals(id));
+  }
 }
