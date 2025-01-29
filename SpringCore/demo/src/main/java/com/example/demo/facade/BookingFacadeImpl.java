@@ -26,7 +26,7 @@ public class BookingFacadeImpl implements BookingFacade {
   // USER
 
   @Override
-  public User createUser(User user) {
+  public User createUser(UserDto user) {
     return userService.createUser(user);
   }
 
@@ -37,7 +37,7 @@ public class BookingFacadeImpl implements BookingFacade {
 
   @Override
   public User updateUser(UserDto userDto) {
-    return null;
+    return userService.updateUser(userDto);
   }
 
   @Override
@@ -74,7 +74,6 @@ public class BookingFacadeImpl implements BookingFacade {
   public Ticket bookTicket(TicketDto ticketDto) {
     return ticketService.bookTicket(ticketDto);
   }
-
 
   @Override
   public Ticket getTicket(String id) {

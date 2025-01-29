@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import com.example.demo.dto.TicketDto;
 import com.example.demo.facade.BookingFacade;
 import com.example.demo.facade.BookingFacadeImpl;
+import com.example.demo.mapper.TicketMapper;
 import com.example.demo.model.Ticket;
 import com.example.demo.repository.TicketRepository;
 import com.example.demo.service.TicketService;
@@ -29,7 +30,7 @@ class TicketServiceTest {
         .userId("User Id 1")
         .build();
 
-    TicketService ticketService = new TicketService(new TicketRepository());
+    TicketService ticketService = new TicketService(new TicketRepository(), TicketMapper.INSTANCE);
     bookingFacade = new BookingFacadeImpl(null, null, ticketService);
   }
 

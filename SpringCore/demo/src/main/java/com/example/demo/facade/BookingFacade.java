@@ -22,7 +22,7 @@ public interface BookingFacade {
 
   // USER
 
-  User createUser(User user);
+  User createUser(UserDto user);
 
   User getUser(String id);
 
