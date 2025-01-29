@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.UserDto;
+import com.example.demo.exception.UserWithEmailAlreadyExists;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
@@ -17,6 +18,11 @@ public class UserService {
 
   public User createUser(UserDto userDto) {
     User user = userMapper.toModel(userDto);
+
+    if (userRepository.doesUserByEmailExists(userDto.email())) {
+      throw new UserWithEmailAlreadyExists(userDto.email());
+    }
+
     userRepository.save(user, user.id());
     return user;
   }
@@ -38,4 +44,5 @@ public class UserService {
   public void deleteUser(String id) {
     userRepository.deleteById(id);
   }
+
 }

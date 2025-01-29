@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GenericRepository<T> {
-  private final Map<String, T> storage = new HashMap<>();
+  protected final Map<String, T> storage = new HashMap<>();
 
   public String save(T entity, String id) {
     storage.put(id, entity);
