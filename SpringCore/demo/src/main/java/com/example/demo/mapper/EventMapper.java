@@ -1,17 +1,24 @@
 package com.example.demo.mapper;
 
-import com.example.demo.config.GlobalMapperConfig;
 import com.example.demo.dto.EventDto;
 import com.example.demo.model.Event;
-import org.mapstruct.Mapper;
+import java.util.UUID;
+import org.mapstruct.BeforeMapping;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(config = GlobalMapperConfig.class)
 public interface EventMapper {
   EventMapper INSTANCE = Mappers.getMapper(EventMapper.class);
 
-  @Mapping(target = "id", expression = "java(UUID.randomUUID().toString())")
+  @BeforeMapping
+  default void setId(
+      @MappingTarget Event.EventBuilder eventBuilder) {
+    eventBuilder.id(UUID.randomUUID().toString());
+  }
+
   EventDto toDto(Event event);
+
+  @Mapping(target = "id", ignore = true)
   Event toModel(EventDto eventDto);
 }

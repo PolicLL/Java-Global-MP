@@ -2,15 +2,23 @@ package com.example.demo.mapper;
 
 import com.example.demo.dto.TicketDto;
 import com.example.demo.model.Ticket;
-import org.mapstruct.Mapper;
+import java.util.UUID;
+import org.mapstruct.BeforeMapping;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
 public interface TicketMapper {
   TicketMapper INSTANCE = Mappers.getMapper(TicketMapper.class);
 
-  @Mapping(target = "id", expression = "java(UUID.randomUUID().toString())")
+  @BeforeMapping
+  default void setId(
+      @MappingTarget Ticket.TicketBuilder ticketBuilder) {
+    ticketBuilder.id(UUID.randomUUID().toString());
+  }
+
   TicketDto toDto(Ticket ticket);
+
+  @Mapping(target = "id", ignore = true)
   Ticket toModel(TicketDto ticketDto);
 }

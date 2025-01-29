@@ -2,15 +2,23 @@ package com.example.demo.mapper;
 
 import com.example.demo.dto.UserDto;
 import com.example.demo.model.User;
-import org.mapstruct.Mapper;
+import java.util.UUID;
+import org.mapstruct.BeforeMapping;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
 public interface UserMapper {
   UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-  @Mapping(target = "id", expression = "java(UUID.randomUUID().toString())")
+  @BeforeMapping
+  default void setId(
+      @MappingTarget User.UserBuilder userBuilder) {
+    userBuilder.id(UUID.randomUUID().toString());
+  }
+
   UserDto toDto(User user);
+
+  @Mapping(target = "id", ignore = true)
   User toModel(UserDto userDto);
 }

@@ -42,7 +42,7 @@ public class BookingFacadeImpl implements BookingFacade {
 
   @Override
   public void deleteUser(String id) {
-
+    userService.deleteUser(id);
   }
 
 
