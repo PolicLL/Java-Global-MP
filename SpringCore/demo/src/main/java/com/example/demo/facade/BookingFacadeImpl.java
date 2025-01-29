@@ -83,7 +83,7 @@ public class BookingFacadeImpl implements BookingFacade {
 
   @Override
   public Ticket updateTicket(TicketDto ticketDto) {
-    return null;
+    return ticketService.updateTicket(ticketDto);
   }
 
   @Override
