@@ -8,7 +8,10 @@ import com.example.demo.dto.UserDto;
 import com.example.demo.facade.BookingFacade;
 import com.example.demo.facade.BookingFacadeImpl;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.model.Event;
+import com.example.demo.model.Ticket;
 import com.example.demo.model.User;
+import com.example.demo.repository.Storage;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +32,9 @@ class UserServiceTest {
         .email("john@example.com")
         .build();
 
-    UserService userService = new UserService(new UserRepository(), UserMapper.INSTANCE);
+    Storage<User> storageUser = new Storage<>();
+
+    UserService userService = new UserService(new UserRepository(storageUser), UserMapper.INSTANCE);
     bookingFacade = new BookingFacadeImpl(userService, null, null);
   }
 

@@ -9,7 +9,10 @@ import com.example.demo.facade.BookingFacade;
 import com.example.demo.facade.BookingFacadeImpl;
 import com.example.demo.mapper.EventMapper;
 import com.example.demo.model.Event;
+import com.example.demo.model.Ticket;
+import com.example.demo.model.User;
 import com.example.demo.repository.EventRepository;
+import com.example.demo.repository.Storage;
 import com.example.demo.service.EventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,7 +32,9 @@ class EventServiceTest {
         .date("Event Description")
         .build();
 
-    EventService eventService = new EventService(new EventRepository(), EventMapper.INSTANCE);
+    Storage<Event> storageEvent = new Storage<>();
+
+    EventService eventService = new EventService(new EventRepository(storageEvent), EventMapper.INSTANCE);
     bookingFacade = new BookingFacadeImpl(null, eventService, null);
   }
 
