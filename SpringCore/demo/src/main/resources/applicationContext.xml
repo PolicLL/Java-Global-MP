@@ -1,0 +1,72 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <!-- Storage Beans -->
+  <bean id="eventStorage" class="com.example.demo.repository.Storage"/>
+  <bean id="userStorage" class="com.example.demo.repository.Storage"/>
+  <bean id="ticketStorage" class="com.example.demo.repository.Storage"/>
+
+  <!-- Storage Initializer -->
+  <bean id="storageInitializer" class="com.example.demo.repository.data.StorageInitializer">
+    <constructor-arg ref="eventStorage"/>
+    <constructor-arg ref="userStorage"/>
+    <constructor-arg ref="ticketStorage"/>
+    <property name="dataFile" value="${data.file.path}"/>
+  </bean>
+
+  <!-- Repositories -->
+  <bean id="userRepository" class="com.example.demo.repository.UserRepository">
+    <constructor-arg ref="userStorage"/>
+  </bean>
+
+  <bean id="eventRepository" class="com.example.demo.repository.EventRepository">
+    <constructor-arg ref="eventStorage"/>
+  </bean>
+
+  <bean id="ticketRepository" class="com.example.demo.repository.TicketRepository">
+    <constructor-arg ref="ticketStorage"/>
+  </bean>
+
+  <!-- Define EventMapper bean -->
+  <bean id="eventMapper" class="com.example.demo.mapper.EventMapperImpl"/>
+
+  <!-- Define TicketMapper bean -->
+  <bean id="ticketMapper" class="com.example.demo.mapper.TicketMapperImpl"/>
+
+  <!-- Define UserMapper bean -->
+  <bean id="userMapper" class="com.example.demo.mapper.UserMapperImpl"/>
+
+  <!-- Services -->
+  <!-- Define EventService bean -->
+  <bean id="eventService" class="com.example.demo.service.EventService">
+    <!-- Inject EventRepository and EventMapper into EventService constructor -->
+    <constructor-arg ref="eventRepository"/>
+    <constructor-arg ref="eventMapper"/>
+  </bean>
+
+  <!-- Define TicketService bean -->
+  <bean id="ticketService" class="com.example.demo.service.TicketService">
+    <!-- Inject TicketRepository, TicketMapper, EventRepository, and UserRepository into TicketService constructor -->
+    <constructor-arg ref="ticketRepository"/>
+    <constructor-arg ref="ticketMapper"/>
+    <constructor-arg ref="eventRepository"/>
+    <constructor-arg ref="userRepository"/>
+  </bean>
+
+  <!-- Define UserService bean -->
+  <bean id="userService" class="com.example.demo.service.UserService">
+    <!-- Inject UserRepository and UserMapper into UserService constructor -->
+    <constructor-arg ref="userRepository"/>
+    <constructor-arg ref="userMapper"/>
+  </bean>
+
+  <!-- Facade -->
+  <bean id="bookingFacade" class="com.example.demo.facade.BookingFacadeImpl">
+    <constructor-arg ref="userService"/>
+    <constructor-arg ref="eventService"/>
+    <constructor-arg ref="ticketService"/>
+  </bean>
+
+</beans>

@@ -9,9 +9,14 @@ import com.example.demo.model.User;
 import com.example.demo.service.EventService;
 import com.example.demo.service.TicketService;
 import com.example.demo.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 public class BookingFacadeImpl implements BookingFacade {
+
+  private static final Logger logger = LoggerFactory.getLogger(BookingFacadeImpl.class);
+
   private final UserService userService;
   private final EventService eventService;
   private final TicketService ticketService;
@@ -21,6 +26,9 @@ public class BookingFacadeImpl implements BookingFacade {
     this.userService = userService;
     this.eventService = eventService;
     this.ticketService = ticketService;
+
+    logger.info("BookingFacadeImpl created with services: UserService={}, EventService={}, TicketService={}",
+        userService, eventService, ticketService);
   }
 
   // USER

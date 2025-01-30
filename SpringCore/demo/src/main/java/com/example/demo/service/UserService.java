@@ -6,14 +6,18 @@ import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UserService {
   private final UserRepository userRepository;
   private final UserMapper userMapper;
+  private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
   public UserService(UserRepository userRepository, UserMapper userMapper) {
     this.userRepository = userRepository;
     this.userMapper = userMapper;
+    logger.info("UserService created with UserRepository: {}", userRepository);
   }
 
   public User createUser(UserDto userDto) {

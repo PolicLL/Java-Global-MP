@@ -1,0 +1,14 @@
+{
+  "events": [
+    { "id": "E1", "title": "Spring Boot Workshop", "date": "2025-03-01" },
+    { "id": "E2", "title": "Java Conference", "date": "2025-04-15" }
+  ],
+  "users": [
+    { "id": "U1", "name": "John Doe", "email": "john@example.com" },
+    { "id": "U2", "name": "Jane Smith", "email": "jane@example.com" }
+  ],
+  "tickets": [
+    { "id": "T1", "userId": "U1", "eventId": "E1", "seatNumber": 101 },
+    { "id": "T2", "userId": "U2", "eventId": "E2", "seatNumber": 202 }
+  ]
+}
