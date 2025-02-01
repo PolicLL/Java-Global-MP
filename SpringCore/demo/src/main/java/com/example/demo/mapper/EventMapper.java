@@ -4,10 +4,12 @@ import com.example.demo.dto.EventDto;
 import com.example.demo.model.Event;
 import java.util.UUID;
 import org.mapstruct.BeforeMapping;
+import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
+@Mapper
 public interface EventMapper {
   EventMapper INSTANCE = Mappers.getMapper(EventMapper.class);
 
