@@ -4,10 +4,13 @@ package com.example.demo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.example.demo.dto.EventDto;
 import com.example.demo.dto.TicketDto;
 import com.example.demo.dto.UserDto;
+import com.example.demo.exception.EventNotFoundException;
+import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.facade.BookingFacade;
 import com.example.demo.model.Event;
 import com.example.demo.model.Ticket;
@@ -91,5 +94,38 @@ class TicketServiceTest {
     bookingFacade.cancelTicket(createdTicket.id());
 
     assertNull(bookingFacade.getTicket(createdTicket.id()));
+  }
+
+  @Test
+  void bookTicketThenCancelIt() {
+    Ticket createdTicket = bookingFacade.bookTicket(ticketDto);
+
+    bookingFacade.cancelTicket(createdTicket.id());
+
+    Ticket canceledTicket = bookingFacade.getTicket(createdTicket.id());
+
+    assertNull(canceledTicket);
+  }
+
+  @Test
+  void bookingTicketWithEventThatDoesNotExistsThrowsException() {
+    ticketDto = TicketDto.builder()
+        .eventId("Unknown")
+        .userId(ticketDto.userId())
+        .seatNumber(100)
+        .build();
+
+    assertThrows(EventNotFoundException.class, () -> bookingFacade.bookTicket(ticketDto));
+  }
+
+  @Test
+  void bookingTicketWithUserThatDoesNotExistsThrowsException() {
+    ticketDto = TicketDto.builder()
+        .eventId(ticketDto.eventId())
+        .userId("Unknown")
+        .seatNumber(100)
+        .build();
+
+    assertThrows(UserNotFoundException.class, () -> bookingFacade.bookTicket(ticketDto));
   }
 }

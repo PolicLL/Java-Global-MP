@@ -3,8 +3,10 @@ package com.example.demo;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.example.demo.dto.UserDto;
+import com.example.demo.exception.UserWithEmailAlreadyExists;
 import com.example.demo.facade.BookingFacade;
 import com.example.demo.model.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,6 +42,12 @@ class UserServiceTest {
     assertNotNull(createdUser);
     assertEquals(userDto.name(), createdUser.name());
     assertNotNull(bookingFacade.getUser(createdUser.id()));
+  }
+
+  @Test
+  void createUserWithSameEmailThrowsException() {
+    bookingFacade.createUser(userDto);
+    assertThrows(UserWithEmailAlreadyExists.class, () -> bookingFacade.createUser(userDto));
   }
 
   @Test
