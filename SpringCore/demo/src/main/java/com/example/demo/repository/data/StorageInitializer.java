@@ -8,14 +8,12 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
 import java.util.List;
-import lombok.Setter;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 
-@Setter
+
 public class StorageInitializer implements InitializingBean {
 
   private static final Logger logger = LoggerFactory.getLogger(StorageInitializer.class);
@@ -31,23 +29,28 @@ public class StorageInitializer implements InitializingBean {
     this.ticketStorage = ticketStorage;
   }
 
-  @Value("classpath:${data.file.path}")
-  private Resource dataFile;
 
-  @Value("${data.file.path}")
-  String value;
+
+  @Getter
+  private String dataFile;
+
+  public void setDataFile(String dataFile) {
+    this.dataFile = dataFile;
+  }
 
   @Override
   public void afterPropertiesSet() {
     loadStorageFromJsonFile();
-    System.out.println("OUTPUT: " + value);
   }
 
   private void loadStorageFromJsonFile() {
+
+    System.out.println("PATH: " + dataFile);
+
     try {
-      logger.info("Starting to load data from JSON file: {}", dataFile.getFile().getAbsolutePath());
+      logger.info("Starting to load data from JSON file: {}", dataFile);
       ObjectMapper objectMapper = new ObjectMapper();
-      JsonNode rootNode = objectMapper.readTree(new File(dataFile.getFile().getAbsolutePath()));
+      JsonNode rootNode = objectMapper.readTree(new File(dataFile));
 
       // Load events
       List<EventDto> events = objectMapper.convertValue(rootNode.get("events"),
