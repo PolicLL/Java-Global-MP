@@ -7,11 +7,14 @@ import com.example.demo.repository.Storage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 
 public class StorageInitializer implements InitializingBean {
@@ -48,9 +51,11 @@ public class StorageInitializer implements InitializingBean {
     System.out.println("PATH: " + dataFile);
 
     try {
-      logger.info("Starting to load data from JSON file: {}", dataFile);
+      Resource resource = new ClassPathResource(dataFile);
+      InputStream inputStream = resource.getInputStream();
+
       ObjectMapper objectMapper = new ObjectMapper();
-      JsonNode rootNode = objectMapper.readTree(new File(dataFile));
+      JsonNode rootNode = objectMapper.readTree(inputStream);
 
       // Load events
       List<EventDto> events = objectMapper.convertValue(rootNode.get("events"),
