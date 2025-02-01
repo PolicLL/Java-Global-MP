@@ -1,12 +1,11 @@
 package com.example.demo.repository.data;
 
-import com.example.demo.dto.EventDto;
-import com.example.demo.dto.TicketDto;
-import com.example.demo.dto.UserDto;
+import com.example.demo.model.Event;
+import com.example.demo.model.Ticket;
+import com.example.demo.model.User;
 import com.example.demo.repository.Storage;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 import lombok.Getter;
@@ -21,18 +20,16 @@ public class StorageInitializer implements InitializingBean {
 
   private static final Logger logger = LoggerFactory.getLogger(StorageInitializer.class);
 
-  private final Storage<EventDto> eventStorage;
-  private final Storage<UserDto> userStorage;
-  private final Storage<TicketDto> ticketStorage;
+  private final Storage<Event> eventStorage;
+  private final Storage<User> userStorage;
+  private final Storage<Ticket> ticketStorage;
 
-  public StorageInitializer(Storage<EventDto> eventStorage, Storage<UserDto> userStorage,
-      Storage<TicketDto> ticketStorage) {
+  public StorageInitializer(Storage<Event> eventStorage, Storage<User> userStorage,
+      Storage<Ticket> ticketStorage) {
     this.eventStorage = eventStorage;
     this.userStorage = userStorage;
     this.ticketStorage = ticketStorage;
   }
-
-
 
   @Getter
   private String dataFile;
@@ -47,9 +44,6 @@ public class StorageInitializer implements InitializingBean {
   }
 
   private void loadStorageFromJsonFile() {
-
-    System.out.println("PATH: " + dataFile);
-
     try {
       Resource resource = new ClassPathResource(dataFile);
       InputStream inputStream = resource.getInputStream();
@@ -58,25 +52,25 @@ public class StorageInitializer implements InitializingBean {
       JsonNode rootNode = objectMapper.readTree(inputStream);
 
       // Load events
-      List<EventDto> events = objectMapper.convertValue(rootNode.get("events"),
-          objectMapper.getTypeFactory().constructCollectionType(List.class, EventDto.class));
-      for (EventDto event : events) {
+      List<Event> events = objectMapper.convertValue(rootNode.get("events"),
+          objectMapper.getTypeFactory().constructCollectionType(List.class, Event.class));
+      for (Event event : events) {
         eventStorage.save(event, event.id());
         logger.info("Loaded Event: {}", event);
       }
 
       // Load users
-      List<UserDto> users = objectMapper.convertValue(rootNode.get("users"),
-          objectMapper.getTypeFactory().constructCollectionType(List.class, UserDto.class));
-      for (UserDto user : users) {
+      List<User> users = objectMapper.convertValue(rootNode.get("users"),
+          objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
+      for (User user : users) {
         userStorage.save(user, user.id());
         logger.info("Loaded User: {}", user);
       }
 
       // Load tickets
-      List<TicketDto> tickets = objectMapper.convertValue(rootNode.get("tickets"),
-          objectMapper.getTypeFactory().constructCollectionType(List.class, TicketDto.class));
-      for (TicketDto ticket : tickets) {
+      List<Ticket> tickets = objectMapper.convertValue(rootNode.get("tickets"),
+          objectMapper.getTypeFactory().constructCollectionType(List.class, Ticket.class));
+      for (Ticket ticket : tickets) {
         ticketStorage.save(ticket, ticket.id());
         logger.info("Loaded Ticket: {}", ticket);
       }

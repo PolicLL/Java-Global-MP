@@ -9,61 +9,36 @@ import com.example.demo.dto.EventDto;
 import com.example.demo.dto.TicketDto;
 import com.example.demo.dto.UserDto;
 import com.example.demo.facade.BookingFacade;
-import com.example.demo.facade.BookingFacadeImpl;
-import com.example.demo.mapper.EventMapper;
-import com.example.demo.mapper.TicketMapper;
-import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.Event;
 import com.example.demo.model.Ticket;
 import com.example.demo.model.User;
-import com.example.demo.repository.EventRepository;
-import com.example.demo.repository.Storage;
-import com.example.demo.repository.TicketRepository;
-import com.example.demo.repository.UserRepository;
-import com.example.demo.service.EventService;
-import com.example.demo.service.TicketService;
-import com.example.demo.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @SpringJUnitConfig
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
 class TicketServiceTest {
 
+  @Autowired
   private BookingFacade bookingFacade;
   private TicketDto ticketDto;
-  private UserDto userDto;
-  private EventDto eventDto;
+  private static int counter = 0;
 
   @BeforeEach
   void setUp() {
-    userDto = UserDto.builder()
+    UserDto userDto = UserDto.builder()
         .id("User Id 1")
-        .name("John Doe")
-        .email("john@example.com")
+        .name("John Doe" + counter)
+        .email("john@example.com" + counter++)
         .build();
 
-    eventDto = EventDto.builder()
+    EventDto eventDto = EventDto.builder()
         .id("Event Id 1")
         .title("Pera Peric")
         .build();
-
-    Storage<User> storageUser = new Storage<>();
-    Storage<Event> storageEvent = new Storage<>();
-    Storage<Ticket> storageTicket = new Storage<>();
-
-    UserRepository userRepository = new UserRepository(storageUser);
-    TicketRepository ticketRepository = new TicketRepository(storageTicket);
-    EventRepository eventRepository = new EventRepository(storageEvent);
-
-    TicketService ticketService = new TicketService(
-        ticketRepository, TicketMapper.INSTANCE, eventRepository, userRepository);
-
-    UserService userService = new UserService(userRepository, UserMapper.INSTANCE);
-
-    EventService eventService = new EventService(eventRepository, EventMapper.INSTANCE);
-
-    bookingFacade = new BookingFacadeImpl(userService, eventService, ticketService);
 
     User createdUser = bookingFacade.createUser(userDto);
     Event createdEvent = bookingFacade.createEvent(eventDto);

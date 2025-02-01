@@ -6,21 +6,18 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import com.example.demo.dto.EventDto;
 import com.example.demo.facade.BookingFacade;
-import com.example.demo.facade.BookingFacadeImpl;
-import com.example.demo.mapper.EventMapper;
 import com.example.demo.model.Event;
-import com.example.demo.model.Ticket;
-import com.example.demo.model.User;
-import com.example.demo.repository.EventRepository;
-import com.example.demo.repository.Storage;
-import com.example.demo.service.EventService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 @SpringJUnitConfig
+@ContextConfiguration(locations = "classpath:applicationContext.xml")
 class EventServiceTest {
 
+  @Autowired
   private BookingFacade bookingFacade;
   private EventDto eventDto;
 
@@ -31,11 +28,6 @@ class EventServiceTest {
         .title("Event Name")
         .date("Event Description")
         .build();
-
-    Storage<Event> storageEvent = new Storage<>();
-
-    EventService eventService = new EventService(new EventRepository(storageEvent), EventMapper.INSTANCE);
-    bookingFacade = new BookingFacadeImpl(null, eventService, null);
   }
 
   @Test

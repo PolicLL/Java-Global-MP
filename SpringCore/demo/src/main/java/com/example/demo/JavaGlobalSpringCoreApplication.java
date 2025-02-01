@@ -16,6 +16,11 @@ public class JavaGlobalSpringCoreApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(JavaGlobalSpringCoreApplication.class, args);
 
+		loadBeans();
+
+	}
+
+	private static void loadBeans() {
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
 
