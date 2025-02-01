@@ -14,10 +14,16 @@ public class UserRepository extends GenericRepository<User> {
   }
 
   public boolean doesUserByEmailExists(String email) {
-    return storage.getStorage().values().stream().anyMatch(user -> user.email().equals(email));
+    logger.debug("Checking if user exists with email: {}", email);
+    boolean exists = storage.getStorage().values().stream().anyMatch(user -> user.email().equals(email));
+    logger.info("User with email: {} exists: {}", email, exists);
+    return exists;
   }
 
   public boolean doesUserByIdExists(String id) {
-    return storage.getStorage().values().stream().anyMatch(user -> user.id().equals(id));
+    logger.debug("Checking if user exists with ID: {}", id);
+    boolean exists = storage.getStorage().values().stream().anyMatch(user -> user.id().equals(id));
+    logger.info("User with ID: {} exists: {}", id, exists);
+    return exists;
   }
 }

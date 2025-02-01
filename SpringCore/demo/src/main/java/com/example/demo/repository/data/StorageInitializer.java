@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.InputStream;
 import java.util.List;
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -32,11 +33,8 @@ public class StorageInitializer implements InitializingBean {
   }
 
   @Getter
+  @Setter
   private String dataFile;
-
-  public void setDataFile(String dataFile) {
-    this.dataFile = dataFile;
-  }
 
   @Override
   public void afterPropertiesSet() {
