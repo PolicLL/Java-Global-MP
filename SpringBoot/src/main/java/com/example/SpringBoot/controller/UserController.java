@@ -23,7 +23,6 @@ public class UserController {
 
   private final UserService userService;
 
-
   @GetMapping("/home")
   @PreAuthorize("hasRole('USER')")
   public String home() {

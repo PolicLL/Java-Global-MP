@@ -13,7 +13,6 @@ public class ManagerController {
   @GetMapping
   @PreAuthorize("hasRole('MANAGER')")
   public String home(SecurityContext securityContext) {
-    System.out.println(securityContext);
     return "Manager Home Page";
   }
 

@@ -1,7 +1,5 @@
 package com.example.SpringBoot.service;
 
-import com.example.SpringBoot.model.Role;
-import com.example.SpringBoot.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
@@ -14,18 +12,13 @@ import java.util.Map;
 import java.util.function.Function;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
 
   private final String secretKey;
-
-  @Autowired
-  private UserRepository userRepository;
 
   public JwtService() {
     try {
@@ -39,8 +32,6 @@ public class JwtService {
 
   public String generateToken(String username) {
     Map<String, Object> claims = new HashMap<>();
-
-    claims.put("roles", userRepository.findByUsername(username).getRole());
 
     Date threeHoursFromNow = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 3);
 
