@@ -1,22 +1,44 @@
 package com.example.SpringBoot.controller;
 
-
 import com.example.SpringBoot.dto.UserDto;
 import com.example.SpringBoot.model.User;
 import com.example.SpringBoot.service.UserService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/users")
+@RequiredArgsConstructor
+@RequestMapping("/user")
 public class UserController {
 
   private final UserService userService;
 
-  public UserController(UserService userService) {
-    this.userService = userService;
+
+  @GetMapping("/home")
+  @PreAuthorize("hasRole('USER')")
+  public String home() {
+    return "User Home Page";
+  }
+
+  @PostMapping("/login")
+  public String login(@RequestBody User user) {
+    System.out.println(user);
+    return userService.verify(user);
+  }
+
+  @PostMapping("/register")
+  public User register(@RequestBody UserDto userDto) {
+    return userService.register(userDto);
   }
 
   @GetMapping
@@ -29,11 +51,6 @@ public class UserController {
     return userService.getUserById(id)
         .map(ResponseEntity::ok)
         .orElse(ResponseEntity.notFound().build());
-  }
-
-  @PostMapping
-  public User createUser(@RequestBody UserDto userDto) {
-    return userService.createUser(userDto);
   }
 
   @PutMapping("/{id}")
