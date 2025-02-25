@@ -11,6 +11,7 @@ public class UserPrincipal implements UserDetails {
   private final User user;
 
   public UserPrincipal(User user) {
+    System.out.println("Constructor of UserPrincipal : " + user);
     this.user = user;
   }
 
@@ -47,5 +48,12 @@ public class UserPrincipal implements UserDetails {
   @Override
   public boolean isEnabled() {
     return true;
+  }
+
+  @Override
+  public String toString() {
+    return "UserPrincipal{" +
+        "user=" + user +
+        '}';
   }
 }

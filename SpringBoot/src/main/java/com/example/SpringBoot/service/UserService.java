@@ -48,7 +48,7 @@ public class UserService {
     User user = User.builder()
         .password(bCryptPasswordEncode.encode(userDto.getPassword()))
         .username(userDto.getUsername())
-        .role(Role.USER)
+        .role(Role.ROLE_USER)
         .build();
 
     userRepository.save(user);

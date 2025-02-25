@@ -1,6 +1,7 @@
 package com.example.SpringBoot.controller;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +12,8 @@ public class ManagerController {
 
   @GetMapping
   @PreAuthorize("hasRole('MANAGER')")
-  public String home() {
+  public String home(SecurityContext securityContext) {
+    System.out.println(securityContext);
     return "Manager Home Page";
   }
 
