@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS users;
+
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
@@ -6,7 +8,10 @@ CREATE TABLE users (
 );
 
 INSERT INTO users (username, password, role)
-VALUES ('admin', '$2a$10$dcCL0ARQfBY.kqI1uaiepuFIoeHIQ9Pblj9LmWyxIg1ydj5hRCEPG', 'ADMIN');
+VALUES ('admin DEV', '$2a$10$dcCL0ARQfBY.kqI1uaiepuFIoeHIQ9Pblj9LmWyxIg1ydj5hRCEPG', 'ADMIN');
 
 INSERT INTO users (username, password, role)
-VALUES ('manager', '$2a$10$EAWja.I4SLQqXyPRMwIi2OV6/QeH7Mc.ETSG8uFBBp0vS5RgDeJ4.', 'MANAGER');
+VALUES ('manager DEV', '$2a$10$EAWja.I4SLQqXyPRMwIi2OV6/QeH7Mc.ETSG8uFBBp0vS5RgDeJ4.', 'MANAGER');
+
+
+SELECT * FROM users
