@@ -2,7 +2,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    role VARCHAR(50) NOT NULL CHECK (role IN ('ADMIN', 'USER', 'MANAGER'))
+    role VARCHAR(50) NOT NULL
 );
 
 INSERT INTO users (username, password, role)

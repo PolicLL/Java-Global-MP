@@ -4,6 +4,7 @@ import com.example.SpringBoot.dto.UserDto;
 import com.example.SpringBoot.model.User;
 import com.example.SpringBoot.service.UserService;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,6 +38,7 @@ public class UserController {
 
   @PostMapping("/register")
   public User register(@RequestBody UserDto userDto) {
+    System.out.println("Registration: " + userService.register(userDto));
     return userService.register(userDto);
   }
 
@@ -47,10 +49,12 @@ public class UserController {
 
   @GetMapping("/{id}")
   public ResponseEntity<User> getUserById(@PathVariable Long id) {
-    return userService.getUserById(id)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+    Optional<User> userOptional = userService.getUserById(id);
+    System.out.println("User found: " + userOptional);
+    return userOptional.map(ResponseEntity::ok)
+        .orElseGet(() -> ResponseEntity.notFound().build());
   }
+
 
   @PutMapping("/{id}")
   public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User userDetails) {
