@@ -1,62 +1,115 @@
 package com.example.SpringBoot.controller;
 
-import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.SpringBoot.model.User;
-import com.example.SpringBoot.security.filter.JwtFilter;
-import com.example.SpringBoot.service.UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.SpringBoot.utils.AuthService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 
-
-
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(properties = "spring.flyway.enabled=false")
+@SpringBootTest
 @AutoConfigureMockMvc
-class UserControllerTest {
+@TestPropertySource(locations = "classpath:application-test.properties")
+public class UserControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
 
-  @Autowired
-  private ObjectMapper objectMapper;
+  private String token;
 
-  @MockitoBean
-  private UserService userService;
+  @BeforeEach
+  void setup() throws Exception {
+    this.token = new AuthService(mockMvc).getAuthToken("user", "user");
+  }
 
-  @MockitoBean
-  private JwtFilter jwtFilter;
+  @Test
+  void shouldReturnUserHomePage() throws Exception {
+    mockMvc.perform(get("/user/home")
+            .header("Authorization", "Bearer " + token))
+        .andExpect(status().isOk())
+        .andExpect(content().string("User Home Page"));
+  }
 
-  @InjectMocks
-  private UserController userController;
+  @Test
+  void shouldDenyAccessForUnauthenticatedUser() throws Exception {
+    mockMvc.perform(get("/user/home"))
+        .andExpect(status().isUnauthorized());
+  }
 
 
   @Test
-  @WithMockUser(username = "user", authorities = {"ROLE_USER"})
-  void testGetUserById() throws Exception {
-    User user = new User();
-    user.setId(1L);
-    user.setUsername("testUser");
-
-    when(userService.getUserById(1L)).thenReturn(java.util.Optional.of(user));
-
-    mockMvc.perform(get("/user/1")
-            .contentType(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType("text/plain;charset=UTF-8"));
+  void shouldReturnLoginResponse() throws Exception {
+    String loginPayload = "{\"username\": \"user\", \"password\": \"user\"}";
+    mockMvc.perform(post("/user/login")
+            .contentType("application/json")
+            .content(loginPayload))
+        .andExpect(status().isOk());
   }
 
+  @Test
+  void shouldReturnUserAfterRegistration() throws Exception {
+    String registrationPayload = "{\"username\": \"newuser\", \"password\": \"newpassword\"}";
+    mockMvc.perform(post("/user/register")
+            .contentType("application/json")
+            .content(registrationPayload))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  void shouldReturnAllUsers() throws Exception {
+    String response = mockMvc.perform(
+            get("/user")  // Endpoint to get all users
+            .header("Authorization", "Bearer " + token))  // Add Bearer token for authorization
+        .andExpect(status().isOk())  // Expect status 200 OK
+        .andReturn()
+        .getResponse()
+        .getContentAsString();
+
+    System.out.println(response);
+  }
+
+  @Test
+  void shouldReturnForbiddenForNonUserUser() throws Exception {
+    String newToken = new AuthService(mockMvc).getAuthToken("manager", "manager");
+    mockMvc.perform(get("/user/home")
+            .header("Authorization", "Bearer " + newToken))
+        .andExpect(status().isForbidden());
+  }
+
+
+  @Test
+  void shouldReturnUserById() throws Exception {
+    String token = new AuthService(mockMvc).getAuthToken("user", "user");
+    mockMvc.perform(get("/user/2")
+            .header("Authorization", "Bearer " + token))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  void shouldReturnUpdatedUser() throws Exception {
+    String token = new AuthService(mockMvc).getAuthToken("user", "user");
+    String updatePayload = "{\"username\": \"updateduser\", \"password\": \"updatedpassword\"}";
+    mockMvc.perform(put("/user/2")
+            .header("Authorization", "Bearer " + token)
+            .contentType("application/json")
+            .content(updatePayload))
+        .andExpect(status().isOk());
+  }
+
+  @Test
+  void shouldReturnNoContentAfterDelete() throws Exception {
+    String token = new AuthService(mockMvc).getAuthToken("admin", "admin");
+    mockMvc.perform(delete("/user/1")
+            .header("Authorization", "Bearer " + token))
+        .andExpect(status().isNoContent());
+  }
 }
