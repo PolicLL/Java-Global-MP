@@ -13,3 +13,9 @@ VALUES ('manager', '$2a$10$EAWja.I4SLQqXyPRMwIi2OV6/QeH7Mc.ETSG8uFBBp0vS5RgDeJ4.
 
 INSERT INTO users (username, password, role)
 VALUES ('user', '$2a$10$K/VuDn2rmMb0TgzeW7GQfu/Xr5hgEJnFUbY3xCrI3YfhULATbno86', 'ROLE_USER');
+
+INSERT INTO users (username, password, role)
+VALUES ('user2', '$2a$10$K/VuDn2rmMb0TgzeW7GQfu/Xr5hgEJnFUbY3xCrI3YfhULATbno86', 'ROLE_USER');
+
+INSERT INTO users (username, password, role)
+VALUES ('user3', '$2a$10$K/VuDn2rmMb0TgzeW7GQfu/Xr5hgEJnFUbY3xCrI3YfhULATbno86', 'ROLE_USER');

@@ -89,7 +89,7 @@ public class UserControllerTest {
   @Test
   void shouldReturnUserById() throws Exception {
     String token = new AuthService(mockMvc).getAuthToken("user", "user");
-    mockMvc.perform(get("/user/2")
+    mockMvc.perform(get("/user/4")
             .header("Authorization", "Bearer " + token))
         .andExpect(status().isOk());
   }
@@ -98,7 +98,7 @@ public class UserControllerTest {
   void shouldReturnUpdatedUser() throws Exception {
     String token = new AuthService(mockMvc).getAuthToken("user", "user");
     String updatePayload = "{\"username\": \"updateduser\", \"password\": \"updatedpassword\"}";
-    mockMvc.perform(put("/user/2")
+    mockMvc.perform(put("/user/4")
             .header("Authorization", "Bearer " + token)
             .contentType("application/json")
             .content(updatePayload))
@@ -108,7 +108,7 @@ public class UserControllerTest {
   @Test
   void shouldReturnNoContentAfterDelete() throws Exception {
     String token = new AuthService(mockMvc).getAuthToken("admin", "admin");
-    mockMvc.perform(delete("/user/1")
+    mockMvc.perform(delete("/user/5")
             .header("Authorization", "Bearer " + token))
         .andExpect(status().isNoContent());
   }
