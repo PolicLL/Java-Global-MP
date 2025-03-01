@@ -6,7 +6,7 @@ CREATE TABLE users (
 );
 
 INSERT INTO users (username, password, role)
-VALUES ('admin', '$2a$10$dcCL0ARQfBY.kqI1uaiepuFIoeHIQ9Pblj9LmWyxIg1ydj5hRCEPG', 'ADMIN');
+VALUES ('admin', '$2a$10$dcCL0ARQfBY.kqI1uaiepuFIoeHIQ9Pblj9LmWyxIg1ydj5hRCEPG', 'ROLE_ADMIN');
 
 INSERT INTO users (username, password, role)
-VALUES ('manager', '$2a$10$EAWja.I4SLQqXyPRMwIi2OV6/QeH7Mc.ETSG8uFBBp0vS5RgDeJ4.', 'MANAGER');
+VALUES ('manager', '$2a$10$EAWja.I4SLQqXyPRMwIi2OV6/QeH7Mc.ETSG8uFBBp0vS5RgDeJ4.', 'ROLE_MANAGER');
