@@ -38,9 +38,11 @@ public class UserController {
 
   @PostMapping("/register")
   public User register(@RequestBody UserDto userDto) {
-    System.out.println("Registration: " + userService.register(userDto));
-    return userService.register(userDto);
+    User registeredUser = userService.register(userDto);
+    System.out.println("Registration: " + registeredUser);
+    return registeredUser;
   }
+
 
   @GetMapping
   public List<User> getAllUsers() {
