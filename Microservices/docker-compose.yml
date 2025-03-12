@@ -1,0 +1,48 @@
+services:
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "15672:15672" # RabbitMQ management interface
+      - "5672:5672"   # RabbitMQ messaging port
+    networks:
+      - sender
+      - recipient
+
+  micro-sender:
+    image: "micro-sender:latest"
+    build:
+      context: ./micro-sender
+    ports:
+      - "8081:8081"
+    networks:
+      - sender
+    environment:
+      - SPRING_PROFILES_ACTIVE=sender
+
+  micro-recipient:
+    image: "micro-recipient:latest"
+    build:
+      context: ./micro-recipient
+    ports:
+      - "8082:8082"
+    networks:
+      - recipient
+    environment:
+      - SPRING_PROFILES_ACTIVE=recipient
+
+  micro-collector:
+    image: "micro-collector:latest"
+    build:
+      context: ./micro-collector
+    ports:
+      - "8083:8083"
+    networks:
+      - recipient
+    environment:
+      - SPRING_PROFILES_ACTIVE=collector
+
+networks:
+  sender:
+    driver: bridge
+  recipient:
+    driver: bridge
