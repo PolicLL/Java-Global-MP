@@ -30,4 +30,4 @@ COPY --from=builder /app/target/micro-sender-0.0.1-SNAPSHOT.jar /app/micro-sende
 EXPOSE 8081
 
 # Command to run the application
-ENTRYPOINT ["java", "-jar", "/app/micro-sender.jar"]
+ENTRYPOINT ["java", "-jar", "/app/micro-sender-0.0.1-SNAPSHOT.jar"]

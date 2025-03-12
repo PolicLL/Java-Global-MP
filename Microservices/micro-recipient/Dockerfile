@@ -30,4 +30,4 @@ COPY --from=builder /app/target/micro-recipient-0.0.1-SNAPSHOT.jar /app/micro-re
 EXPOSE 8082
 
 # Command to run the application
-ENTRYPOINT ["java", "-jar", "/app/micro-recipient.jar"]
+ENTRYPOINT ["java", "-jar", "/app/micro-recipient-0.0.1-SNAPSHOT.jar"]

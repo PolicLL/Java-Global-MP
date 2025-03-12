@@ -2,8 +2,8 @@ services:
   rabbitmq:
     image: "rabbitmq:3-management"
     ports:
-      - "15672:15672" # RabbitMQ management interface
-      - "5672:5672"   # RabbitMQ messaging port
+      - "15672:15672" # Management UI
+      - "5672:5672"   # Messaging
     networks:
       - sender
       - recipient
@@ -13,7 +13,7 @@ services:
     build:
       context: ./micro-sender
     ports:
-      - "8081:8081"
+      - "8080:8080"
     networks:
       - sender
     environment:
@@ -29,6 +29,11 @@ services:
       - recipient
     environment:
       - SPRING_PROFILES_ACTIVE=recipient
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_PORT=5672
+    depends_on:
+    - rabbitmq
+    restart: always
 
   micro-collector:
     image: "micro-collector:latest"

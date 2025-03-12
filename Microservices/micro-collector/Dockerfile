@@ -30,4 +30,4 @@ COPY --from=builder /app/target/micro-collector-0.0.1-SNAPSHOT.jar /app/micro-co
 EXPOSE 8083
 
 # Command to run the application
-ENTRYPOINT ["java", "-jar", "/app/micro-collector.jar"]
+ENTRYPOINT ["java", "-jar", "/app/micro-collector-0.0.1-SNAPSHOT.jar"]
