@@ -1,8 +1,7 @@
-package com.example.micro_sender.config;
+package com.example.micro_recipient.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
@@ -13,19 +12,17 @@ public class RabbitConfig {
 
   @Bean
   public Queue notificationQueue() {
-    return new Queue("notificationQueue", true); // Declare a durable queue
+    return new Queue("notificationQueue", true); // Durable queue
+  }
+
+
+  @Bean
+  public TopicExchange exchange() {
+    return new TopicExchange("exchange"); // Declare exchange
   }
 
   @Bean
-  public DirectExchange directExchange() {
-    return new DirectExchange("notificationExchange");
-  }
-
-  @Bean
-  public Binding binding() {
-    return BindingBuilder.bind(notificationQueue())
-        .to(directExchange())
-        .with("notificationRoutingKey");
+  public Binding binding(Queue notificationQueue, TopicExchange exchange) {
+    return BindingBuilder.bind(notificationQueue).to(exchange).with("notification.#"); // Bind exchange to queue
   }
 }
-
