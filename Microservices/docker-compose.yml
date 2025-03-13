@@ -45,9 +45,33 @@ services:
       - recipient
     environment:
       - SPRING_PROFILES_ACTIVE=collector
+    depends_on:
+    - rabbitmq
+    restart: always
+
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9091:9091"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    networks:
+      - monitoring
 
 networks:
   sender:
     driver: bridge
   recipient:
     driver: bridge
+  monitoring:   # 🔥 Add this missing network definition
+    driver: bridge
+
