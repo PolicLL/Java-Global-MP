@@ -2,8 +2,10 @@ package com.example.micro_collector;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
+@EnableFeignClients
 public class MicroCollectorApplication {
 
 	public static void main(String[] args) {
