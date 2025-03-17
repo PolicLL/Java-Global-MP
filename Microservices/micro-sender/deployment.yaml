@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro-sender
+  labels:
+    app: micro-sender
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-sender
+  template:
+    metadata:
+      labels:
+        app: micro-sender
+    spec:
+      containers:
+        - name: micro-sender
+          image: micro-sender:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "docker" # Set your Spring profile if needed
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: micro-sender
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: micro-sender

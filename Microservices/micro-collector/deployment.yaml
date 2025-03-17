@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro-collector
+  labels:
+    app: micro-collector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-collector
+  template:
+    metadata:
+      labels:
+        app: micro-collector
+    spec:
+      containers:
+        - name: micro-collector
+          image: micro-collector
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "docker" # Set your Spring profile if needed
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: micro-collector
+spec:
+  ports:
+    - port: 8082
+      targetPort: 8082
+  selector:
+    app: micro-collector
