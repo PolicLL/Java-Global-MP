@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro-visualizer
+  labels:
+    app: micro-visualizer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-visualizer
+  template:
+    metadata:
+      labels:
+        app: micro-visualizer
+    spec:
+      containers:
+        - name: micro-visualizer
+          image: micro-visualizer:latest # Use the correct image name
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8085
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "docker"
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://postgres:5432/mydatabase" # Postgres connection URL
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "admin"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: micro-visualizer
+spec:
+  ports:
+    - port: 8085
+      targetPort: 8085
+  selector:
+    app: micro-visualizer
