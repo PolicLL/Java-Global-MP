@@ -13,7 +13,7 @@ public class MetricsScheduler {
     this.myService = myService;
   }
 
-  @Scheduled(fixedRate = 10000) // Every 10 seconds
+  @Scheduled(fixedRate = 50000) // Every 10 seconds
   public void scheduleRandomMetrics() {
     myService.generateRandomMetrics();
   }
