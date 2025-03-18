@@ -42,3 +42,6 @@ spec:
       targetPort: 8082
   selector:
     app: micro-collector
+
+spec:
+  replicas: 9

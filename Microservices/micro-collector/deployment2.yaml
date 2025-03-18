@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: micro-collector-v2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: micro-collector
+      version: v2
+  template:
+    metadata:
+      labels:
+        app: micro-collector
+        version: v2
+    spec:
+      containers:
+        - name: micro-collector
+          image: micro-collector:v2 # Ensure this image exists locally or in a registry
+          imagePullPolicy: Never # Change to IfNotPresent for pulling from a registry
+          ports:
+            - containerPort: 8082
