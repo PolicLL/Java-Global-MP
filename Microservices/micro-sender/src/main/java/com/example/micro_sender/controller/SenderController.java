@@ -24,6 +24,7 @@ public class SenderController {
   public ResponseEntity<String> sendNotification(@RequestBody NotificationRequest request) {
     logger.info("Received notification: {}", request);
     rabbitTemplate.convertAndSend("notificationQueue", request.getMessage());
+    logger.info("Saving to the repo: " + request.getMessage());
     return ResponseEntity.ok("Message sent to the queue");
   }
 }
