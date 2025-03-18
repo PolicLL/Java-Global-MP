@@ -28,7 +28,7 @@ public class MessageCollectorService {
   public void collectMessages() {
     logger.info("ENTERED collectMessages()");
     try {
-      List<String> message =  List.of("123"); //microRecipientClient.getMessage();
+      List<String> message =  microRecipientClient.getMessage();
       logger.info("Input value:  {}", message);
       message.forEach(value -> messageRepository.save(new Message(value)));
       logger.info("Collected message: {}", message);

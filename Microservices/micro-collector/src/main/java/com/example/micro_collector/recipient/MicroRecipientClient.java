@@ -4,9 +4,8 @@ import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
-// http://consumer.default.svc.cluster.local:8081/api/message
 
-@FeignClient(name = "micro-recipient", url = "http://micro-recipient.default.svc.cluster.local:8081")
+@FeignClient(name = "micro-recipient")
 public interface MicroRecipientClient {
 
   @GetMapping("/message")
